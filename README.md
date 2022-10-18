@@ -1,2 +1,2 @@
-# CCEL
+# Playground
 Useful Scripts for VASP
