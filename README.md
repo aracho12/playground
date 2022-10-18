@@ -1,2 +1,2 @@
 # Playground
-Useful Scripts for VASP
+for fun
