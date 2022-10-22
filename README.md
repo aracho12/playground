@@ -1,2 +1,3 @@
 # Playground
-for fun
+for fun!!
+script for vasp calculation
