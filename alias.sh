@@ -53,6 +53,17 @@ alias rm='~/bin/rm_mv'
 
 
 # --- Git --- #
+gitupdate(){
+	dir_now=$PWD
+	cd $1
+	git pull
+	git add *
+	git commit -m "."
+	git push
+	chmod 644 *
+	chmod 755 ./*/
+	cd $dir_now
+}
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
