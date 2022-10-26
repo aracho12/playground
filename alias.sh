@@ -25,21 +25,31 @@ export bMa='\033[95m' # bright magenta
 export bCy='\033[96m' # bright cyan
 export bW='\033[97m' # bright white
 
+echo $0
+echo $SHELL
 # --- Basic --- # 
-if [[ $0 == 'bash' ]] ; then
-	vbash='vi ~/.bashrc'
-	sbash='source ~/.bashrc'
-elif [[ $0 == 'zsh' ]] ; then
-	vbash='vi ~/.zshrc'
-	vzsh='vi ~/.zshrc'
-	sbash='source ~/.zshrc'
-	szsh='source ~/.zshrc'
+if [[ $0 == '/bin/bash' ]] ; then
+	export shellnow='bash'
+	echo -e "bash"
+	alias vbash='vi ~/.bashrc'
+	alias sbash='source ~/.bashrc'
+	alias ls='ls --color=auto -h --group-directories-first'
+	alias l='ls --color=auto -h --group-directories-first'
+elif [[ $SHELL == '/bin/zsh' ]] ; then
+	export shellnow='zsh'
+	alias vbash='vi ~/.zshrc'
+	alias vzsh='vi ~/.zshrc'
+	alias sbash='source ~/.zshrc'
+	alias szsh='source ~/.zshrc'
+	alias ls='ls --color=auto'
+	alias l='ls --color=autos'
+else
+	alias ls='ls'
+	export shellnow='???'
 fi
 
 alias ..='cd ..'
 alias ...='cd ../..'
-alias ls='ls --color=auto -h --group-directories-first'
-alias l='ls --color=auto -h --group-directories-first'
 alias c='clear'
 alias cls='clear;ls'
 alias grep='grep --color=always'
