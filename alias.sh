@@ -53,16 +53,6 @@ alias rm='~/bin/rm_mv'
 
 
 # --- Git --- #
-gitupdate(){
-	dir_now=$PWD
-	cd $1
-	git pull
-	git add *
-	git commit -m "."
-	git push
-	chmod 644 *
-	cd $dir_now
-}
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
@@ -75,6 +65,16 @@ git add *
 git commit -m "."
 git push
 chmod 644 *
+chmod 755 ./*/
+cd $dir_now'
+alias playground='dir_now=$PWD
+cd ~/bin/playground
+git pull
+git add *
+git commit -m "."
+git push
+chmod 644 *
+chmod 755 ./*/
 cd $dir_now'
 alias pull='git pull'
 alias push='git push'
@@ -104,9 +104,9 @@ alias pickle='python3 -m ase.io.trajectory *.traj'
 
 # --- Alias --- #
 alias cmc='cd $happy'
-alias cgrun='cgrun.sh'
-alias qdel='qdel.sh'
-alias se='se.sh'
+alias cgrun='$happy/cgrun.sh'
+alias qdel='$happy/qdel.sh'
+alias se='bash $happy/se.sh'
 alias to='sec2hhmmdd.sh'
 alias go='. go.sh'
 alias showslab='python $happy/showslab.py'
@@ -114,8 +114,8 @@ alias mvc='mv CONTCAR POSCAR ; ls'
 alias fix='python $happy/fixslab.py'
 alias E0='grep E0 OSZICAR'
 alias PBE='grep PBE POTCAR'
-alias sub='sub_only_one_job.sh'
-alias mystat='mystat.sh'
+alias sub='bash $happy/sub_only_one_job.sh'
+alias mystat='bash $happy/mystat.sh'
 alias pot='POTCAR.py'
 alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
