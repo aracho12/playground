@@ -28,7 +28,7 @@ export bW='\033[97m' # bright white
 echo $0
 echo $SHELL
 # --- Basic --- # 
-if [[ $0 == '/bin/bash' ]] ; then
+if [[ $SHELL == '/bin/bash' ]] ; then
 	export shellnow='bash'
 	echo -e "bash"
 	alias vbash='vi ~/.bashrc'
