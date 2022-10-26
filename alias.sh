@@ -51,7 +51,7 @@ alias rm='~/bin/rm_mv'
 # --- Git --- #
 gitupdate(){
 	dir_now=$PWD
-	cd ~/bin/$1
+	cd $1
 	git pull
 	git add *
 	git commit -m "."
@@ -62,9 +62,6 @@ gitupdate(){
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
-git add *
-git commit -m "."
-git push
 chmod 644 *
 cd $dir_now'
 alias happy='dir_now=$PWD
@@ -75,13 +72,13 @@ git commit -m "."
 git push
 chmod 644 *
 cd $dir_now'
-alias pull='git pull origin master'
-alias push='git push origin master'
+alias pull='git pull'
+alias push='git push'
 
 # --- VARIABLES --- #
 export VTST_PATH=~/bin/vtstscripts-1022
 export ASE_VASP_VDW=~/bin/vdw_kernel
-export happy_life=~/bin/for_a_happy_life
+export happy=~/bin/for_a_happy_life
 export aloha=~/bin/aloha
 export orange=~/bin/orange
 export playground=~/bin/playground
@@ -89,28 +86,28 @@ export playground=~/bin/playground
 
 # --- PATH --- #
 export PYTHONPATH=~/bin:$PYTHONPATH
-export PYTHONPATH=$happy_life:$PYTHONPATH
+export PYTHONPATH=$happy:$PYTHONPATH
 export PYTHONPATH=$aloha:$PYTHONPATH
 export PATH=~/bin:$PATH
-export PATH=$happy_life:$PATH
+export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
 
 # --- ASE --- #
 alias convf='ase convert -f -n -1 OUTCAR final_with_calculator.json'
 alias convr='ase convert -f -n -1 OUTCAR restart.json'
-
+alias pickle='python3 -m ase.io.trajectory *.traj'
 
 
 # --- Alias --- #
-alias cmc='cd $happy_life'
+alias cmc='cd $happy'
 alias cgrun='cgrun.sh'
 alias qdel='qdel.sh'
 alias se='se.sh'
 alias to='sec2hhmmdd.sh'
 alias go='. go.sh'
-alias showslab='python $happy_life/showslab.py'
+alias showslab='python $happy/showslab.py'
 alias mvc='mv CONTCAR POSCAR ; ls'
-alias fix='python $happy_life/fixslab.py'
+alias fix='python $happy/fixslab.py'
 alias E0='grep E0 OSZICAR'
 alias PBE='grep PBE POTCAR'
 alias sub='sub_only_one_job.sh'
@@ -120,10 +117,14 @@ alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
 alias dos='cp ~/bin/sumoDOS* .; python ./sumoDOS.py'
 alias ag='ag.sh'
-alias ckalias='vi $playground/alias.sh'
+alias vialias='vi $playground/alias.sh'
 alias cgrun='cgrun.sh'
 alias mvc='mv CONTCAR POSCAR ; ls'
-
+alias cs='source cs.sh'
+alias ckrun='ckrun.sh'
+alias cg='bash $happy/sg.sh'
+alias rus='bash $happy/srus.sh'
+alias ac='bash $happy/ag.sh CONTCAR'
 
 # --- TRASH --- #
 
