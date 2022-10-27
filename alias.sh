@@ -64,6 +64,9 @@ gitupdate(){
 	chmod 755 ./*/
 	cd $dir_now
 }
+mc(){
+	bash $happy/$1
+}
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
@@ -115,11 +118,11 @@ alias pickle='python3 -m ase.io.trajectory *.traj'
 
 # --- Alias --- #
 alias cmc='cd $happy'
-alias cgrun='$happy/cgrun.sh'
-alias qdel='$happy/qdel.sh'
+alias cgrun='bash $happy/cgrun.sh'
+alias qdel='bash $happy/qdel.sh'
 alias se='bash $happy/se.sh'
 alias to='sec2hhmmdd.sh'
-alias go='. go.sh'
+alias go='. $happy/go.sh'
 alias showslab='python $happy/showslab.py'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias fix='python $happy/fixslab.py'
@@ -127,19 +130,21 @@ alias E0='grep E0 OSZICAR'
 alias PBE='grep PBE POTCAR'
 alias sub='bash $happy/sub_only_one_job.sh'
 alias mystat='bash $happy/mystat.sh'
-alias pot='POTCAR.py'
+alias pot='python $happy/POTCAR.py'
 alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
 alias dos='cp ~/bin/sumoDOS* .; python ./sumoDOS.py'
-alias ag='ag.sh'
+alias ag='bash $happy/ag.sh'
 alias vialias='vi $playground/alias.sh'
-alias cgrun='cgrun.sh'
+alias cgrun='bash $happy/cgrun.sh'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias cs='source cs.sh'
 alias ckrun='ckrun.sh'
 alias cg='bash $happy/sg.sh'
 alias rus='bash $happy/srus.sh'
 alias ac='bash $happy/ag.sh CONTCAR'
+alias ts='bash $happy/ts.sh'
+alias cnt='mc t2.sh'
 
 # --- TRASH --- #
 
