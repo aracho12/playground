@@ -145,7 +145,7 @@ alias rus='bash $happy/srus.sh'
 alias ac='bash $happy/ag.sh CONTCAR'
 alias ts='bash $happy/ts.sh'
 alias cnt='mc t2.sh'
-alias set='mc set.sh'
+alias set.sh='mc start.sh'
 alias restart='mc restart.sh'
 alias sub.sh='mc sub.sh'
 
