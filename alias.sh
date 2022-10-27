@@ -51,7 +51,6 @@ alias la='ls -la'
 alias dush='du -h | sort -h | tail -20'
 alias rm='~/bin/rm_mv'
 
-
 # --- Git --- #
 gitupdate(){
 	dir_now=$PWD
@@ -148,6 +147,7 @@ alias cnt='mc t2.sh'
 alias set.sh='bash $happy/start.sh'
 alias restart='mc restart.sh'
 alias sub.sh='bash $happy/sub.sh'
+alias jobllist='mc joblist.sh'
 
 # --- TRASH --- #
 
