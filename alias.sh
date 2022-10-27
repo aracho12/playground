@@ -81,7 +81,7 @@ git push
 chmod 644 *
 chmod 755 ./*/
 cd $dir_now'
-alias playground='dir_now=$PWD
+alias play='dir_now=$PWD
 cd ~/bin/playground
 git pull
 git add *
@@ -99,7 +99,7 @@ export ASE_VASP_VDW=~/bin/vdw_kernel
 export happy=~/bin/for_a_happy_life
 export aloha=~/bin/aloha
 export orange=~/bin/orange
-export playground=~/bin/playground
+export play=~/bin/playground
 
 
 # --- PATH --- #
@@ -135,7 +135,7 @@ alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
 alias dos='cp ~/bin/sumoDOS* .; python ./sumoDOS.py'
 alias ag='bash $happy/ag.sh'
-alias vialias='vi $playground/alias.sh'
+alias vialias='vi $play/alias.sh'
 alias cgrun='bash $happy/cgrun.sh'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias cs='source cs.sh'
@@ -145,9 +145,9 @@ alias rus='bash $happy/srus.sh'
 alias ac='bash $happy/ag.sh CONTCAR'
 alias ts='bash $happy/ts.sh'
 alias cnt='mc t2.sh'
-alias set.sh='mc start.sh'
+alias set.sh='bash $happy/start.sh'
 alias restart='mc restart.sh'
-alias sub.sh='mc sub.sh'
+alias sub.sh='bash $happy/sub.sh'
 
 # --- TRASH --- #
 
