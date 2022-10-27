@@ -147,6 +147,7 @@ alias ts='bash $happy/ts.sh'
 alias cnt='mc t2.sh'
 alias set='mc set.sh'
 alias restart='mc restart.sh'
+alias sub.sh='mc sub.sh'
 
 # --- TRASH --- #
 
