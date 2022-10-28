@@ -50,6 +50,8 @@ alias grep='grep --color=always'
 alias la='ls -la'
 alias dush='du -h | sort -h | tail -20'
 alias rm='~/bin/rm_mv'
+alias sh='bash'
+alias py='python'
 
 # --- Git --- #
 gitupdate(){
