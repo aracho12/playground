@@ -151,6 +151,9 @@ alias restart='mc restart.sh'
 alias sub.sh='bash $happy/sub.sh'
 alias jobllist='mc joblist.sh'
 
+# --- Research --- #
+alias wf='python $happy/wf_cal.py'
+
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
