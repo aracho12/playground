@@ -79,8 +79,6 @@ git pull
 git add *
 git commit -m "."
 git push
-chmod 644 *
-chmod 755 ./*/
 cd $dir_now'
 alias play='dir_now=$PWD
 cd ~/bin/playground
@@ -88,8 +86,6 @@ git pull
 git add *
 git commit -m "."
 git push
-chmod 644 *
-chmod 755 ./*/
 cd $dir_now'
 alias pull='git pull'
 alias push='git push'
