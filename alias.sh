@@ -59,8 +59,8 @@ gitupdate(){
 	git add *
 	git commit -m "."
 	git push
-	chmod 644 *
-	chmod 755 ./*/
+#	chmod 644 *
+#	chmod 755 ./*/
 	cd $dir_now
 }
 mc(){
@@ -69,7 +69,6 @@ mc(){
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
-chmod 644 *
 cd $dir_now'
 alias happy='dir_now=$PWD
 cd ~/bin/for_a_happy_life
@@ -77,8 +76,6 @@ git pull
 git add *
 git commit -m "."
 git push
-chmod 644 *
-chmod 755 ./*/
 cd $dir_now'
 alias play='dir_now=$PWD
 cd ~/bin/playground
@@ -86,8 +83,6 @@ git pull
 git add *
 git commit -m "."
 git push
-chmod 644 *
-chmod 755 ./*/
 cd $dir_now'
 alias pull='git pull'
 alias push='git push'
