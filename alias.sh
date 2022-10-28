@@ -150,7 +150,8 @@ alias set.sh='bash $happy/start.sh'
 alias restart='mc restart.sh'
 alias sub.sh='bash $happy/sub.sh'
 alias jobllist='mc joblist.sh'
-
+alias fstat='mc t1.sh'
+alias te.sh='mc te.sh'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 
