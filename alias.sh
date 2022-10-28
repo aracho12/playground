@@ -1,6 +1,6 @@
 # --- Color --- #
 
-LS_COLORS=$LS_COLORS:'di=1;36:*.py=1;38;5;123:*.cif=01;35:*.txt=01;35:*.dat=01;35:*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:*.sh=01;35' ; export LS_COLORS
+LS_COLORS=$LS_COLORS:'*DONE=01;4;31:di=1;36:*.py=1;38;5;123:*.cif=01;35:*.txt=01;35:*.dat=01;35:*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:*.sh=01;35' ; export LS_COLORS
 
 export re='\e[0m' # regular
 export bd='\e[1m' # color + bold
@@ -50,6 +50,8 @@ alias grep='grep --color=always'
 alias la='ls -la'
 alias dush='du -h | sort -h | tail -20'
 alias rm='~/bin/rm_mv'
+alias sh='bash'
+alias py='python'
 
 # --- Git --- #
 gitupdate(){
@@ -143,6 +145,11 @@ alias set.sh='bash $happy/start.sh'
 alias restart='mc restart.sh'
 alias sub.sh='bash $happy/sub.sh'
 alias jobllist='mc joblist.sh'
+alias fstat='mc t1.sh'
+alias te.sh='mc te.sh'
+# --- Research --- #
+alias wf='python $happy/wf_cal.py'
+alias getrst='python ~/bin/get_restart.py'
 
 # --- TRASH --- #
 
