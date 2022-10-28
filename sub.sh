@@ -49,14 +49,14 @@ elif [[ -n $3 ]] ; then
 fi
 
 if [ $RUN == 1 ] ; then
-	echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— "
+	echo -e "\033[93;03m————————————————————————"
 	echo -e "job name: $name"
 	echo -e "job type: $calpy"
-    echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— $bW"
+	echo -e "\033[93;03m————————————————————————"$bW
 	read -p ">> do you want to change job type ?: " y
 	if [ "$y" == "y" ] ; then
 		bash $happy/joblist.sh
-		read -p "which calculation ?:" cal
+		read -p "$bW>> which calculation ?:" cal
 		bash $happy/cgrun.sh $cal
 		bash $happy/srus.sh $name
 		bash $happy/sub_only_one_job.sh
@@ -81,6 +81,11 @@ elif [ $RUN == 2 ] ; then
 		:
 	fi
 	SET=$(seq -f "%02g" $INI $FIN)
+	if test -d "$INI" ; then
+		:
+	else
+		bash $happy/start.sh $INI $FIN
+	fi
 	for i in $SET
 	do
 		if test -d "$i"* ; then
