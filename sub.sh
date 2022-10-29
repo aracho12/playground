@@ -48,38 +48,66 @@ elif [[ -n $3 ]] ; then
 	fi
 fi
 
-if [ $RUN == 1 ] ; then
-	echo -e "\033[93;03m————————————————————————"
-	echo -e "job name: $name"
-	echo -e "job type: $calpy"
-	echo -e "\033[93;03m————————————————————————"$bW
-	read -p ">> do you want to change job type ?: " y
+bash $happy/srus.sh $name
+
+submit_info(){
+	vasp=$(grep /vasp. $runpath | grep -v "#" | rev | cut -d'/' -f1 | rev )
+	node=$(grep ntasks-per-node $runpath | cut -d'=' -f2)
+	numnode=$(grep --nodes= $runpath | cut -d'=' -f2)
+	partition=$(grep partition $runpath | cut -d'=' -f2)
+	calpy=$(grep python $runpath | grep -v "#" | grep -v "if_finish_let_me_know.py" | gawk '{print $2}' | rev | cut -d'/' -f1 | rev)
+	name=$(grep "job-name=" $runpath | cut -d'=' -f2)
+	echo -e "\033[1;31;03m—————————— job info ——————————$Y$re"
+	echo -e " # of node: $numnode * $node"
+	echo -e " partition: $partition"
+	echo -e "  job name: $name"
+	echo -e "  job type: $calpy"
+	echo -e "  vasp ver: $vasp"
+	echo -e "\033[1;31;03m—————————————————————————————"$dW
+}
+
+change(){
+	read -p ">> do you want to change something ?: " y
 	if [ "$y" == "y" ] ; then
-		bash $happy/joblist.sh
-		read -p "$bW>> which calculation ?:" cal
-		bash $happy/cgrun.sh $cal
-		bash $happy/srus.sh $name
-		bash $happy/sub_only_one_job.sh
-	elif [ "$y" == "n" ] ; then
-		bash $happy/srus.sh $name
-		bash $happy/sub_only_one_job.sh
-	else
-		exit 1
+        echo -e "\033[93;03m————————————————————————"
+        echo -e " a) partition (g1, g2 ,g3, g4, g5, gpu)"
+        echo -e " b) job type"
+        echo -e " c) number of node"
+        echo -e " i) check changed info"
+		echo -e " s) let's submit job!"
+        echo -e "\033[93;03m————————————————————————$bW"	
+		while :
+		do
+			read -p ">> choose option you want to change : " op
+			if [ "$op" == "a" ] || [ "$op" == "cg" ] ; then
+				bash $happy/sg.sh
+			elif [ "$op" == "b" ] || [ "$op" == "py" ]; then
+        		bash $happy/joblist.sh
+		        read -p "$bW>> which calculation ?:" cal
+				bash $happy/cgrun.sh $cal
+			elif [ "$op" == "c" ] || [ "$op" == "node" ] ; then
+				read -p "$bW>> how many node ?:" nn
+				bash $happy/cgnode.sh  $nn
+			elif [ "$op" == "i" ] ; then
+				submit_info
+			elif [ "$op" == "s" ] ; then
+				break
+			else
+				submit_info
+			fi
+		done
 	fi
+}
+
+submit_info
+change
+
+if [ $RUN == 1 ] ; then
+		bash $happy/sub_only_one_job.sh
 elif [ $RUN == 2 ] ; then
 	echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— "
 	echo -e "submit jobs from $INI to $FIN"
-    echo -e "job base name: $name"
-    echo -e "job type: $calpy"
-    echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— $bW"
-	read -p ">> do you want to change job type ?: " y
-	if [ "$y" == "y" ] ; then
-		bash $happy/joblist.sh
-		read -p "which calculation ?:" cal
-		bash $happy/cgrun.sh $cal
-	elif [ "$y" == "n" ] ; then
-		:
-	fi
+    echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— $dW"
 	SET=$(seq -f "%02g" $INI $FIN)
 	if test -d "$INI" ; then
 		:
