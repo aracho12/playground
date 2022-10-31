@@ -3,3 +3,12 @@ alias vbash='vi ~/.bash_profile'
 alias sbash='source ~/.bash_profile'
 alias viner='vi ~/bin/playground/alias-nersc.sh'
 #/home/aracho/8_suncat-orr/PES-model-for-ORR
+export pes=/global/cscratch1/sd/aracho/PES/PES-model-for-ORR
+alias pes='dir_now=$PWD
+cd /global/cscratch1/sd/aracho/PES/PES-model-for-ORR
+git pull
+git add *
+git commit -m "."
+git push
+cd $dir_now'
+

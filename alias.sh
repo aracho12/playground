@@ -150,7 +150,7 @@ alias te.sh='mc te.sh'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python ~/bin/get_restart.py'
-
+alias pes='bash $happy/gitpes.sh'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
