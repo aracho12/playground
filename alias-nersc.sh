@@ -11,4 +11,8 @@ git add *
 git commit -m "."
 git push
 cd $dir_now'
+export jobtype='slurm'
+export server='nersc'
+alias mystat='squeue -o "%.10F %.8u %.15j %.5P %.6Q %.2t %.2Y %M" -S "t,-Q" | grep " aracho "'
+alias qstat='mc sacct.sh'
 

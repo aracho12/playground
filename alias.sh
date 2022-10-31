@@ -151,6 +151,7 @@ alias te.sh='mc te.sh'
 alias wf='python $happy/wf_cal.py'
 alias getrst='python ~/bin/get_restart.py'
 alias pes='bash $happy/gitpes.sh'
+alias jobtype='slurm'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
