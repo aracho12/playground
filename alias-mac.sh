@@ -1,4 +1,4 @@
-export pes=~/bin/PES-model-for-ORR
+export pes=/Users/aracho/Dropbox/0_Research/0_My_Publications/24_2022_PES-model/PES-model-for-ORR
 alias pes='dir_now=$PWD
 cd $pes
 git pull
