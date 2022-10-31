@@ -7,3 +7,4 @@ git commit -m "."
 git push
 cd $dir_now'
 export server='burning'
+alias viburning='vi ~/bin/playground/alias-burning.sh'
