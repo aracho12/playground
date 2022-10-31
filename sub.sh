@@ -1,4 +1,5 @@
 #!/bin/bash
+# description: set job options before submit
 
 # -------------- set up --------------- #
 IFS='/' read -r -a scratch <<< "$SCRATCH"
@@ -24,7 +25,7 @@ if [[ -z $2 ]] ; then
 			if [ -f .me ] ; then
 				name=$(more .me | gawk '{print $4}')
 			else
-				name=$job_name
+				name=$(sed -e 's/^"//' -e 's/"$//' <<< $job_name)
 			fi
 		fi
 	else
@@ -52,7 +53,7 @@ bash $happy/srus.sh $name
 
 submit_info(){
 	vasp=$(grep /vasp. $runpath | grep -v "#" | rev | cut -d'/' -f1 | rev )
-	node=$(grep ntasks-per-node $runpath | cut -d'=' -f2)
+	node=$(grep tasks-per-node $runpath | cut -d'=' -f2)
 	numnode=$(grep nodes= $runpath | cut -d'=' -f2)
 	partition=$(grep partition $runpath | cut -d'=' -f2)
 	calpy=$(grep python $runpath | grep -v "#" | grep -v "if_finish_let_me_know.py" | gawk '{print $2}' | rev | cut -d'/' -f1 | rev)
@@ -88,10 +89,10 @@ change(){
 				bash $happy/sg.sh
 			elif [ "$op" == "b" ] || [ "$op" == "cgrun" ] || [ "$op" == "cal" ] ; then
         		bash $happy/joblist.sh
-		        read -p "$bW>> which calculation ?:" cal
+		        read -p $bW">> which calculation ?:" cal
 				bash $happy/cgrun.sh $cal
 			elif [ "$op" == "c" ] || [ "$op" == "cgnode" ] || [ "$op" == "cgn" ] ; then
-				read -p "$bW>> how many node ?:" nn
+				read -p $bW">> how many node ?:" nn
 				bash $happy/cgnode.sh  $nn
 			elif [ "$op" == "cnt" ] ; then
 				bash $happy/t2.sh
@@ -126,6 +127,7 @@ elif [ $RUN == 2 ] ; then
 	do
 		if test -d "$i"* ; then
 			cd "$i"*
+			name=$(sed -e 's/^"//' -e 's/"$//' <<< $name)
 			bash $happy/srus.sh "$name"_"$i"
 			bash $happy/sub_only_one_job.sh
 			cd ..
