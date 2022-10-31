@@ -152,6 +152,7 @@ alias wf='python $happy/wf_cal.py'
 alias getrst='python ~/bin/get_restart.py'
 alias pes='bash $happy/gitpes.sh'
 alias jobtype='slurm'
+alias cdb='source $happy/cdback.sh'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
