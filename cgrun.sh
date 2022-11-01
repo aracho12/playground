@@ -17,7 +17,7 @@ runpath=$SCRATCH/$proj/script/$runfile
 sed -i 's/^[^#]*script/#&/' $runpath
 # if $1 exist
 if [[ -n $1 ]]; then
-	echo -e $bG'change to '$Y$bd$1$re$bG' setup'$dW
+	echo -e $re$bG'change to '$Y$bd$1$re$bG' setup'$dW
 	sed -i '/^#.*script.*'"$1"'/s/^#//' $runpath
-	grep --color $1 $runpath
+	#grep --color $1 $runpath
 fi
