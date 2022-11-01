@@ -3,7 +3,7 @@ IFS='/' read -r -a scratch <<< "$SCRATCH"
 IFS='/' read -r -a cpwd <<< "${PWD##}"
 scratch=("${scratch[@]}")
 cpwd=("${cpwd[@]}")
-if [[ $server == 'nersc' ]] ; then
+if [[ $server == 'cori' ]] || [[ $server == 'perl' ]] ; then
     project=$(echo $PWD | cut -d'/' -f6)
     github=$(echo $PWD | cut -d'/' -f7)
     if [[ $project == 'PES' ]]; then
