@@ -148,6 +148,7 @@ alias jobllist='mc joblist.sh'
 alias fstat='mc t1.sh'
 alias te.sh='mc te.sh'
 alias cgn='bash $happy/cgnode.sh'
+alias here='echo $server'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python ~/bin/get_restart.py'
