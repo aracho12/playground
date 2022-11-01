@@ -156,6 +156,7 @@ alias pes='bash $happy/gitpes.sh'
 alias jobtype='slurm'
 alias cdb='source $happy/cdback.sh'
 alias cprn='bash $happy/cprn.sh'
+alias zpe='python $happy/ZPE.py'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
