@@ -3,7 +3,7 @@ IFS='/' read -r -a scratch <<< "$SCRATCH"
 IFS='/' read -r -a cpwd <<< "${PWD##}"
 scratch=("${scratch[@]}")
 cpwd=("${cpwd[@]}")
-if [[ $server == 'cori' ]] || [[ $server == 'perl' ]] ; then
+if [[ $server == 'cori' ]] || [[ $server == 'perl']] ; then
     project=$(echo $PWD | cut -d'/' -f6)
     github=$(echo $PWD | cut -d'/' -f7)
     if [[ $project == 'PES' ]]; then
@@ -28,32 +28,33 @@ if [[ $server == 'cori' ]] || [[ $server == 'perl' ]] ; then
             unset 'cpwd[4]'
             unset 'cpwd[5]'
             lst=$SCRATCH/PES/PES-model-for-ORR/
-		fi
-	fi
+        fi
+    fi
 elif [[ $server == 'kisti' ]] ; then
-	if [[ ${PWD##} =~ "dct" ]] ; then
-		unset 'cpwd[1]'
-		unset 'cpwd[2]'
-		unset 'cpwd[3]'
-    	unset 'cpwd[4]'
-		lst="/scratch/x2431a03/"
-	else
-		unset 'cpwd[1]'
-		unset 'cpwd[2]'
-  		#echo "after del cpwd:"${cpwd[@]}
-  		lst="/scratch/x2431a03/dct/Research_Note/"
-	fi
+    if [[ ${PWD##} =~ "dct" ]] ; then
+        unset 'cpwd[1]'
+        unset 'cpwd[2]'
+        unset 'cpwd[3]'
+        unset 'cpwd[4]'
+        lst="/scratch/x2431a03/"
+    else
+        unset 'cpwd[1]'
+        unset 'cpwd[2]'
+        #echo "after del cpwd:"${cpwd[@]}
+        lst="/scratch/x2431a03/dct/Research_Note/"
+    fi
 fi
 for path in ${cpwd[@]}
 do
-	lst+=$path/
+    lst+=$path/
 done
 lst="${lst:0:-1}"
-cd $lst
-if [ $? -eq 0 ];then
-	echo -e cd $lst
-    echo -e $G"change folder complete"$W
-    ls --color=always
+if [ -n $1 ] ; then
+    echo -e "cp -R $1 $lst"
+    cp -R $1 $lst
+fi
+if [ $? -eq 0 ] ; then
+    echo -e $G"copy complete"$W
 else
-    echo -e $R" Failure!"$W
+    echo -e $R"copy Failure!"$W
 fi

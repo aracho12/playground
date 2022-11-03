@@ -119,7 +119,7 @@ alias qdel='bash $happy/qdel.sh'
 alias se='bash $happy/se.sh'
 alias to='sec2hhmmdd.sh'
 alias go='. $happy/go.sh'
-alias showslab='python $happy/showslab.py'
+alias showatoms='python $happy/showatoms.py'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias fix='python $happy/fixslab.py'
 alias E0='grep E0 OSZICAR'
@@ -156,6 +156,7 @@ alias pes='bash $happy/gitpes.sh'
 alias jobtype='slurm'
 alias cdb='source $happy/cdback.sh'
 alias cprn='bash $happy/cprn.sh'
+alias zpe='python $happy/ZPE.py'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
