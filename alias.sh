@@ -157,6 +157,8 @@ alias jobtype='slurm'
 alias cdb='source $happy/cdback.sh'
 alias cprn='bash $happy/cprn.sh'
 alias zpe='python $happy/ZPE.py'
+# --- INCAR --- #
+alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
