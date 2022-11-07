@@ -19,5 +19,5 @@ else
 fi
 export PATH=~/bin/vaspkit.1.3.5/bin:$PATH
 alias mystat='squeue -o "%.10F %.8u %.15j %.5P %.6Q %.2t %.2Y %M" -S "t,-Q" | grep " aracho "'
-alias qstat='mc sacct.sh'
+alias fstat='mc sacct.sh'
 alias pot='python $happy/POTCAR_54.py'
