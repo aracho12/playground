@@ -149,11 +149,8 @@ alias fstat='mc t1.sh'
 alias te.sh='mc te.sh'
 alias cgn='bash $happy/cgnode.sh'
 alias here='echo $server'
-<<<<<<< HEAD
 alias scp.sh='bash $happy/scp.sh'
-=======
 alias repeat='bash $happy/repeat.sh'
->>>>>>> 188e29dbb0b80f80ad95bbf97f6ce66fdedde2e5
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
