@@ -162,7 +162,7 @@ alias jobtype='slurm'
 alias cdb='source $happy/cdback.sh'
 alias cprn='bash $happy/cprn.sh'
 alias zpe='python $happy/ZPE.py'
-alias cohp='bash $happy/coho.sh'
+alias cohp='bash $happy/cohp.sh'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
