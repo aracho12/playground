@@ -52,7 +52,13 @@ fi
 bash $happy/srus.sh $name
 
 submit_info(){
-	vasp=$(grep /vasp. $runpath | grep -v "#" | rev | cut -d'/' -f1 | rev )
+	if [[ $server == 'cori' ]] || [[ $server == 'perl' ]] ; then
+		vasp=vasp.5.4.4.vaspsol.vtst.x
+		partition=$(grep "SBATCH -C" $runpath | gawk '{print $3}')
+	else
+		vasp=$(grep vasp_std= $runpath | grep -v "#" | rev | cut -d'=' -f1 | rev )
+		partition=$(grep partition $runpath | cut -d'=' -f2)
+	fi
 	node=$(grep tasks-per-node $runpath | cut -d'=' -f2)
 	numnode=$(grep nodes= $runpath | cut -d'=' -f2)
 	partition=$(grep partition $runpath | cut -d'=' -f2)
