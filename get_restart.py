@@ -64,13 +64,16 @@ except:
         logger.error("can't get bader charges ; LAECHG = False")
 try:
     os.system("grep LORBIT INCAR | grep -v '#' ")
+    moms=atoms.get_magnetic_moments()
     write_magmom=True
     if write_magmom:
         logger.info("get magnetic moments")
+        atoms.set_initial_magnetic_moments(moms)
+        logger.info("set initial magnetic moments")
 except:
     write_magmom=False
     if not write_magmom:
-        logger.error("can't get magnetic moments ; LORBIT off")
+        logger.error("can't get magnetic moments ; LORBIT or SPIN off")
 moments=[]
 moments2=[]
 if write_magmom:
