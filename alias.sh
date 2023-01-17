@@ -161,11 +161,12 @@ alias getallmag='python $happy/get_allmagmoms.py'
 alias getmag='python $happy/get_magmom.py'
 alias chg='chgsum.pl AECCAR0 AECCAR2 && bader CHGCAR -ref CHGCAR_sum && rm CHG AECC* && ls'
 alias pes='bash $happy/gitpes.sh'
-alias jobtype='slurm'
+export jobtype='slurm'
 alias cdb='source $happy/cdback.sh'
 alias cprn='bash $happy/cprn.sh'
 alias zpe='python $happy/ZPE.py'
 alias cohp='bash $happy/cohp.sh'
+alias cpcohp='cp ~/cohp.py .'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
