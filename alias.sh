@@ -65,9 +65,11 @@ gitupdate(){
 #	chmod 755 ./*/
 	cd $dir_now
 }
+
 mc(){
 	bash $happy/$1
 }
+
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
@@ -162,10 +164,10 @@ alias getmag='python $happy/get_magmom.py'
 alias chg='chgsum.pl AECCAR0 AECCAR2 && bader CHGCAR -ref CHGCAR_sum && rm CHG AECC* && ls'
 alias pes='bash $happy/gitpes.sh'
 export jobtype='slurm'
-alias cdb='source $happy/cdback.sh'
-alias cprn='bash $happy/cprn.sh'
+alias cdb='mc cdback.sh'
+alias cprn='mc cprn.sh'
 alias zpe='python $happy/ZPE.py'
-alias cohp='bash $happy/cohp.sh'
+alias cohp='mc cohp.sh'
 alias cpcohp='cp ~/cohp.py .'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
