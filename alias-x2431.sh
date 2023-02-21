@@ -8,4 +8,5 @@ pbs_status | grep long'
 alias cprnf='bash $mc/cprn.sh final_with_calculator.json'
 alias cprn='bash $mc/cprn.sh'
 alias cdb='source $mc/cdback.sh'
-
+export jobtype='pbs'
+alias vinurion='vi $play/alias-x2431.sh'
