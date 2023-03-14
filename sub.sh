@@ -59,28 +59,54 @@ submit_info(){
 		vasp=$(grep vasp_std= $runpath | grep -v "#" | rev | cut -d'=' -f1 | rev )
 		partition=$(grep partition $runpath | cut -d'=' -f2)
 	fi
-	node=$(grep tasks-per-node $runpath | cut -d'=' -f2)
-	numnode=$(grep nodes= $runpath | cut -d'=' -f2)
-	partition=$(grep partition $runpath | cut -d'=' -f2)
+
 	calpy=$(grep python $runpath | grep -v "#" | grep -v "if_finish_let_me_know.py" | gawk '{print $2}' | rev | cut -d'/' -f1 | rev)
-	name=$(grep "job-name=" $runpath | cut -d'=' -f2)
-	echo -e "\033[1;31;03m—————————— job info ——————————$Y$re"
-	echo -e " # of node: $numnode * $node"
-	echo -e " partition: $partition"
-	echo -e "  job name: $name"
-	echo -e "  job type: $calpy"
-	echo -e "  vasp ver: $vasp"
-	echo -e "\033[1;31;03m—————————————————————————————"$dW
+
+	if [[ $jobtype == 'pbs' ]] ; then
+		name=$(grep "PBS -N" $runpath | cut -d' ' -f3)
+		vasp=vasp_5.4.1.vtst
+		numnode=$(grep "#PBS -l select=" $runpath | cut -d'=' -f2 | cut -d':' -f1)
+		node=$(grep "#PBS -l select=" $runpath | cut -d'=' -f3 | cut -d':' -f1)
+		walltime=$(grep "#PBS -l walltime=" $runpath | cut -d'=' -f2)
+		echo -e "\033[1;31;03m—————————— job info ——————————$Y$re"
+		echo -e "      node: $numnode * $node"
+		echo -e "  walltime: $walltime"
+		echo -e "  job name: $name"
+		echo -e "  job type: $calpy"
+		echo -e "  vasp ver: $vasp"
+		echo -e "\033[1;31;03m—————————————————————————————"$dW
+	else
+		node=$(grep tasks-per-node $runpath | cut -d'=' -f2)
+		numnode=$(grep nodes= $runpath | cut -d'=' -f2)
+		name=$(grep "job-name=" $runpath | cut -d'=' -f2)
+		echo -e "\033[1;31;03m—————————— job info ——————————$Y$re"
+		echo -e " # of node: $numnode * $node"
+		echo -e " partition: $partition"
+		echo -e "  job name: $name"
+		echo -e "  job type: $calpy"
+		echo -e "  vasp ver: $vasp"
+		echo -e "\033[1;31;03m—————————————————————————————"$dW
+	fi
 }
 menu(){
-    echo -e "\033[93;03m————————————————————————"
-    echo -e "  cg) partition (g1, g2 ,g3, g4, g5, gpu)"
-    echo -e " cal) job type"
-    echo -e " cgn) number of node"
-    echo -e "   i) check changed info"
-	echo -e " cnt) check avaiable nodes"
-    echo -e " sub) let's submit job!"
-    echo -e "\033[93;03m————————————————————————$bW"
+	if [[ $jobtype == 'pbs' ]] ; then
+		echo -e "\033[93;03m————————————————————————"
+		echo -e " cgt) walltime (hours)"
+		echo -e " cal) job type"
+		echo -e " cgn) number of node"
+		echo -e "   i) check changed info"
+		echo -e " sub) let's submit job!"
+		echo -e "\033[93;03m————————————————————————$bW"
+	else
+		echo -e "\033[93;03m————————————————————————"
+		echo -e "  cg) partition (g1, g2 ,g3, g4, g5, gpu)"
+		echo -e " cal) job type"
+		echo -e " cgn) number of node"
+		echo -e "   i) check changed info"
+		echo -e " cnt) check avaiable nodes"
+		echo -e " sub) let's submit job!"
+		echo -e "\033[93;03m————————————————————————$bW"
+	fi
 }
 
 
@@ -97,13 +123,15 @@ change(){
         		bash $happy/joblist.sh
 		        read -p $bW">> which calculation ?:" cal
 				bash $happy/cgrun.sh $cal
-			elif [ "$op" == "c" ] || [ "$op" == "cgnode" ] || [ "$op" == "cgn" ] ; then
+			elif [ "$op" == "cgnode" ] || [ "$op" == "cgn" ] ; then
 				read -p $bW">> how many node ?:" nn
 				bash $happy/cgnode.sh  $nn
 			elif [ "$op" == "cnt" ] ; then
 				bash $happy/t2.sh
 			elif [ "$op" == "i" ] ; then
-				submit_info
+				submit_info			
+			elif [ "$op" == "cgt" ]  || [ "$op" == "cgtime" ] ; then
+				bash $happy/cgtime.sh
 			elif [ "$op" == "s" ] || [ "$op" == "sub" ] ; then
 				break
 			else
