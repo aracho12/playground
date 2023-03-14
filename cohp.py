@@ -14,5 +14,3 @@ lobsterin.write_lobsterin(path="lobsterin")
 file=open('./lobsterin','r')
 print(file.read())
 
-print("cohpBetween atom 158 atom 161 orbitalWise")
-print("#cohpGenerator from 0.1 to 6.0 type Pt type H orbitalwise")
