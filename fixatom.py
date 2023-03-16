@@ -5,7 +5,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='input file', default='final_with_calculator.json')
-parser.add_argument('-f', '--fix', help='fix element', type=int)
+parser.add_argument('-f', '--fix', help='fix element', type=str)
 parser.add_argument('-r', '--relax', help='index for relax; others will be fixed', type=str)
 args = parser.parse_args()
 
