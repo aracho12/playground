@@ -178,6 +178,9 @@ alias cohp='mc cohp.sh'
 alias cpcohp='cp ~/cohp.py .'
 alias neb='nebbarrier.pl
 nebspline.pl'
+alias nebplot='python $happy/nebplot.py'
+alias dat2csv='python $happy/dat2csv.py'
+alias neb2img='python $happy/neb2imag.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
