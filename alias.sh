@@ -91,9 +91,6 @@ cd $dir_now'
 alias aloha='dir_now=$PWD
 cd ~/bin/aloha
 git pull
-git add *
-git commit -m "."
-git push
 cd $dir_now'
 alias pull='git pull'
 alias push='git push'
