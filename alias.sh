@@ -88,6 +88,13 @@ git add *
 git commit -m "."
 git push
 cd $dir_now'
+alias aloha='dir_now=$PWD
+cd ~/bin/aloha
+git pull
+git add *
+git commit -m "."
+git push
+cd $dir_now'
 alias pull='git pull'
 alias push='git push'
 
@@ -169,6 +176,8 @@ alias cprn='mc cprn.sh'
 alias zpe='python $happy/ZPE.py'
 alias cohp='mc cohp.sh'
 alias cpcohp='cp ~/cohp.py .'
+alias neb='nebbarrier.pl
+nebspline.pl'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
