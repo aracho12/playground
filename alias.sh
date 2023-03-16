@@ -178,6 +178,7 @@ nebspline.pl'
 alias nebplot='python $happy/nebplot.py'
 alias dat2csv='python $happy/dat2csv.py'
 alias neb2img='python $happy/neb2imag.py'
+alias fixatom='python $happy/fixatom.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
