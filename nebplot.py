@@ -59,12 +59,13 @@ def splineplot(width=None, height=None, dpi=None, plt=None, show_energy=True):
         if show_energy:
             to_plot = [(int_x[0], int_y[0]), (int_x[-1], int_y[-1])]
             max_y = max(int_y)
+            min_y = min(int_y)
             max_y_idx = int_y.index(max_y)
             to_plot.append((int_x[max_y_idx], max_y))
             if i == 0 or i == len(int_x)-1 or yval == max_y:
                 plt.text(xval, yval, round(yval,2), horizontalalignment='center', verticalalignment='bottom', color='black')
 
-    ylim_max = max_y * 1.1
+    ylim_max = max_y+(max_y-min_y)*0.1
     plt.ylim(top=ylim_max)
     plt.xlabel("Distance along the path (Å)")
     plt.ylabel("Relative Energy (eV)")
