@@ -173,11 +173,10 @@ alias cprn='mc cprn.sh'
 alias zpe='python $happy/ZPE.py'
 alias cohp='mc cohp.sh'
 alias cpcohp='cp ~/cohp.py .'
-alias neb='nebbarrier.pl
-nebspline.pl'
+alias neb.sh='mc neb.sh'
 alias nebplot='python $happy/nebplot.py'
 alias dat2csv='python $happy/dat2csv.py'
-alias neb2img='python $happy/neb2imag.py'
+alias neb2img='python $happy/neb2img.py'
 alias fixatom='python $happy/fixatom.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
