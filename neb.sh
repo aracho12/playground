@@ -43,7 +43,7 @@ change(){
             mv neb2repeat.png ${name}2_final.png
         elif [ "$op" == "o" ] ; then
             read -p ">> inputfile name (i.g. 00/POSCAR) : " a1
-            python $happy/find_o_type.py -i $
+            python $happy/find_o_type.py -i $a1
         elif [ "$op" == "d" ] ; then
             read -p ">> pairs? (i.g 1,2 1,3 ..) : " a1
             python $happy/getdistance_pair.py -p $a1
