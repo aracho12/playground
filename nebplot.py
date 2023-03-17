@@ -72,6 +72,6 @@ def splineplot(width=None, height=None, dpi=None, plt=None, show_energy=True):
     #plt.grid()
     plt.savefig('neb_spline.png', dpi=300, bbox_inches='tight')
     #plt.show()
-	print("neb_spline.png is generated")
+    print("neb_spline.png is generated")
 
 splineplot()
