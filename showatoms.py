@@ -1,13 +1,13 @@
 """
+    Ara Cho, Mar, 2023 @SUNCAT
+    description:
     This script is used to show the coordinates of atoms in a slab
-    usage: python randomthings.py [filename]
-    if no filename is given, it will try to read CONTCAR/POSCAR/restart.json
-    if no file is found, it will print "there is no input file"
+    usage: python showatoms.py [filename]
 """
 from sys import argv
 from ase.io import write, read
 import os.path
-#print(argv[0])
+
 if len(argv) > 1:
     inputfile=argv[1]
     print("show:",inputfile)
@@ -23,7 +23,7 @@ elif os.path.isfile("restart.json"):
     slab = read("restart.json")
 else:
     print("there is no input file")
-    print("CONTCAR/POSCAR/restart.json")
+    print("usage: python showatoms.py [filename]")
 
 if hasattr(slab, 'constraints') and len(slab.constraints) > 0:
     a=slab.constraints[0]
