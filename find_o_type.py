@@ -1,13 +1,23 @@
 """
 Ara Cho, Mar, 2023 @SUNCAT
-description: This script is used to distinguish the OOH, OH and O atoms in the input file.
-usage: python3 test.py -i final_with_calculator.json
+description: distinguish the OOH, OH and O atoms in the input file.
+usage: python3 find_o_type.py -i [filename]
+
+Output: print following table 
+O_type  O1_idx  H1_idx H2_idx O2_idx  d(O1-H1)(Å) d(O1-H2)(Å) d(O1-O2)(Å)
+    OH      36      47                      0.983
+    OH      37      43                      1.003
+    OH      38      46                      1.016
+   H2O      39      46     48               1.025       1.029
+   H2O      40      46     49               1.022       1.024
+   OOH      42      50            41        1.000                   1.403
 """
 
+
+import pandas as pd
 from ase.io import read
 import os
 import argparse
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='input file', default='final_with_calculator.json')
@@ -19,18 +29,16 @@ if args.input:
         atoms=read(args.input)
     else:
         print('The input file does not exist.')
-        print('usage: python3 test.py -i filename')
+        print('usage: python3 find_o_type.py -i filename')
         exit()
 
 o_index = [atom.index for atom in atoms if atom.symbol=='O']
 h_index = [atom.index for atom in atoms if atom.symbol=='H']
 
-
-headers = ['O1_index', 'O_type', 'H1_index', 'Distance_(Å)', 'H2_index', 'Distance_(Å)','O2_index', 'Distance_(Å)']
-# Print table headers
-print('{:<15s} {:<15s} {:<15s} {:<15s} {:<15s} {:<15s} {:<15s} {:<15s}'.format(*headers))
+data = []
 
 for i in o_index:
+    row = {}
     neighbors = []
     h_neighbors = []
     for j in o_index:
@@ -43,20 +51,53 @@ for i in o_index:
         if d < 1.2:
             h_neighbors.append((j, d))
 
+    row['O1_idx'] = i
+
     if len(neighbors) == 0 and len(h_neighbors) == 0:
-        row = [i, 'O', '', '', '', '']
-        print('{:<15d} {:<15s} {:<15s} {:<15s} {:<15s} {:<15s}'.format(*row))
+        row['O_type'] = 'O'
     elif len(neighbors) == 1 and len(h_neighbors) == 1:
         o_neighbor, o_d = neighbors[0]
         h_neighbor, h_d = h_neighbors[0]
-        row = [i, 'OOH', h_neighbor, f'{h_d:.3f}', '', '', o_neighbor, f'{o_d:.3f}']
-        print('{:<15d} {:<15s} {:<15d} {:<15s} {:<15s} {:<15s} {:<15d} {:<15s}'.format(*row))
+        row.update({'O_type': 'OOH', 'H1_idx': int(h_neighbor), 'd(O1-H1)(Å)': h_d, 'O2_idx': int(o_neighbor), 'd(O1-O2)(Å)': o_d})
     elif len(neighbors) == 0 and len(h_neighbors) == 1:
         h_neighbor, h_d = h_neighbors[0]
-        row = [i, 'OH', h_neighbor, f'{h_d:.3f}', '', '', '','']
-        print('{:<15d} {:<15s} {:<15d} {:<15s} {:<15s} {:<15s} {:<15s} {:<15s}'.format(*row))
+        row.update({'O_type': 'OH', 'H1_idx': int(h_neighbor), 'd(O1-H1)(Å)': h_d})
     elif len(neighbors) == 0 and len(h_neighbors) == 2:
         h1_neighbor, h1_d = h_neighbors[0]
         h2_neighbor, h2_d = h_neighbors[1]
-        row = [i, 'H2O', h1_neighbor, f'{h1_d:.3f}', h2_neighbor, f'{h2_d:.3f}', '', '']
-        print('{:<15d} {:<15s} {:<15d} {:<15s} {:<15d} {:<15s} {:<15s} {:<15s}'.format(*row))
+        row.update({'O_type': 'H2O', 'H1_idx': int(h_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d})
+
+    data.append(row)
+
+df = pd.DataFrame(data)
+new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'O2_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)', 'd(O1-O2)(Å)']
+df = df.reindex(columns=new_order)
+df = df.dropna(subset=['O_type'])
+
+
+pd.set_option('display.expand_frame_repr', False)
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_colwidth', None)
+pd.set_option('display.max_rows', None)
+
+idx_cols = [col for col in df.columns if 'idx' in col]
+dist_cols = [col for col in df.columns if 'd(' in col]
+
+df = df.dropna(subset=['O_type'])
+df = df.replace('', float('nan'))
+df = df.fillna(0)
+
+for col in idx_cols:
+    df[col] = df[col].astype(int)
+    df[col] = df[col].replace({0: ''})
+
+for col in dist_cols:
+    df[col] = df[col].round(3)
+
+for col in dist_cols:
+    if df[col].notna().all():
+        df[col] = df[col].replace({0: '', 0.000: ''})
+
+print(df.to_string(index=False))
+df.to_csv('o_type.csv', index=False)
+#print('Data saved to o_type.csv')
