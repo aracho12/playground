@@ -18,6 +18,7 @@ import pandas as pd
 from ase.io import read
 import os
 import argparse
+import numpy as np
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='input file', default='final_with_calculator.json')
@@ -66,6 +67,9 @@ for i in o_index:
         h1_neighbor, h1_d = h_neighbors[0]
         h2_neighbor, h2_d = h_neighbors[1]
         row.update({'O_type': 'H2O', 'H1_idx': int(h_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d})
+    elif len(neighbors) == 1 and len(h_neighbors) == 0:
+        o_neighbor, o_d = neighbors[0]
+        row.update({'O_type': 'O2', 'O2_idx': int(o_neighbor), 'd(O1-O2)(Å)': o_d})
 
     data.append(row)
 
@@ -75,6 +79,8 @@ df = df.reindex(columns=new_order)
 df = df.dropna(subset=['O_type'])
 
 
+# df = df.drop(columns=['O_idxs'])
+
 pd.set_option('display.expand_frame_repr', False)
 pd.set_option('display.max_columns', None)
 pd.set_option('display.max_colwidth', None)
@@ -83,9 +89,21 @@ pd.set_option('display.max_rows', None)
 idx_cols = [col for col in df.columns if 'idx' in col]
 dist_cols = [col for col in df.columns if 'd(' in col]
 
+# remove the rows when O_type is O2, [O1_idx, O2_idx] are duplicated
+
+
+
 df = df.dropna(subset=['O_type'])
 df = df.replace('', float('nan'))
 df = df.fillna(0)
+
+if 'O2' in df['O_type'].unique():
+    o2_df = df[df['O_type'] == 'O2'].copy()
+    o2_df[['O1_idx', 'O2_idx']] = np.sort(o2_df[['O1_idx', 'O2_idx']], axis=1)
+    df.loc[df['O_type'] == 'O2', ['O1_idx', 'O2_idx']] = o2_df[['O1_idx', 'O2_idx']]
+
+    o2_df = o2_df.drop_duplicates(subset=['O1_idx', 'O2_idx'], keep='first')
+    df = pd.concat([df[df['O_type'] != 'O2'], o2_df])
 
 for col in idx_cols:
     df[col] = df[col].astype(int)
@@ -97,6 +115,7 @@ for col in dist_cols:
 for col in dist_cols:
     if df[col].notna().all():
         df[col] = df[col].replace({0: '', 0.000: ''})
+
 
 print(df.to_string(index=False))
 df.to_csv('o_type.csv', index=False)
