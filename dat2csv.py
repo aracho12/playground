@@ -1,3 +1,10 @@
+"""
+Ara Cho, Mar, 2023 @SUNCAT
+description: convert .dat to .csv
+usage: python dat2csv.py filename.dat
+i.g) python dat2csv.py neb.dat
+"""
+
 import sys
 import csv
 
