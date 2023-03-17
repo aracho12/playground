@@ -19,6 +19,7 @@ if args.input:
         atoms=read(args.input)
     else:
         print('The input file does not exist.')
+        print('usage: python3 test.py -i filename')
         exit()
 
 o_index = [atom.index for atom in atoms if atom.symbol=='O']
@@ -59,4 +60,3 @@ for i in o_index:
         h2_neighbor, h2_d = h_neighbors[1]
         row = [i, 'H2O', h1_neighbor, f'{h1_d:.3f}', h2_neighbor, f'{h2_d:.3f}', '', '']
         print('{:<15d} {:<15s} {:<15d} {:<15s} {:<15d} {:<15s} {:<15s} {:<15s}'.format(*row))
-
