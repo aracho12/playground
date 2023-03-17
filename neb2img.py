@@ -1,3 +1,17 @@
+"""
+Ara Cho, Mar, 2023 @SUNCAT
+description: generate images from neb trajectory
+neb2img.png: top and side view
+neb2repeat.png: 2x2x1 cell top view
+usage: python neb2img.py [filename] # default: CONTCAR
+run this script in the directory where NEB folders (00,01,02..) are located
+
+it requires ase_notebook package
+
+TODO:
+- seperate rows when the number of images is large
+"""
+
 from ase_notebook import AseView, ViewConfig, get_example_atoms, concatenate_svgs, svg_to_pdf
 import base64
 import cairosvg
