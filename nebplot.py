@@ -1,6 +1,12 @@
+"""
+Ara Cho, Mar, 2023 @SUNCAT
+description: plot the spline curve of NEB result.
+usage: python nebplot.py
+"""
+
 import matplotlib
 from matplotlib import pyplot as plt
-from aloha import plot_setting
+from aloha import plot_setting # you can turn off the plot_setting
 import csv
 from matplotlib.ticker import AutoMinorLocator
 
