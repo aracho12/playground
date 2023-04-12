@@ -181,6 +181,7 @@ alias dat2csv='python $happy/dat2csv.py'
 alias neb2img='python $happy/neb2img.py'
 alias fixatom='python $happy/fixatom.py'
 alias findo='python $happy/find_o_type.py'
+alias distance='python $happy/getdistance_pair.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
