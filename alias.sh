@@ -159,7 +159,11 @@ alias cgn='bash $happy/cgnode.sh'
 alias here='echo $server'
 alias scp.sh='bash $happy/scp.sh'
 alias repeat='bash $happy/repeat.sh'
+<<<<<<< HEAD
 alias sym='bash $happy/rearrange_symbols.py'
+=======
+alias inneb.sh='bash $happy/inneb.sh'
+>>>>>>> e4539a5f5adb0149b6588df5d2ba1df31280ea16
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
@@ -180,6 +184,8 @@ alias nebplot='python $happy/nebplot.py'
 alias dat2csv='python $happy/dat2csv.py'
 alias neb2img='python $happy/neb2img.py'
 alias fixatom='python $happy/fixatom.py'
+alias findo='python $happy/find_o_type.py'
+alias distance='python $happy/getdistance_pair.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
