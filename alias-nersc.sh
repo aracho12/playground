@@ -22,3 +22,4 @@ alias mystat='squeue -o "%.10F %.8u %.15j %.5P %.6Q %.2t %.2Y %M" -S "t,-Q" | gr
 alias fstat='mc sacct.sh'
 alias pot='python $happy/POTCAR_54.py'
 alias qstat='squeue --me'
+export PATH=/global/homes/a/aracho/packmol-20.14.0:$PATH

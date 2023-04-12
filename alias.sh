@@ -159,6 +159,7 @@ alias cgn='bash $happy/cgnode.sh'
 alias here='echo $server'
 alias scp.sh='bash $happy/scp.sh'
 alias repeat='bash $happy/repeat.sh'
+alias sym='bash $happy/rearrange_symbols.py'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
