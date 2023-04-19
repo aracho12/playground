@@ -1,0 +1,4 @@
+#!/bin/bash
+
+ase gui $* &
+
