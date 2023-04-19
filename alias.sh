@@ -180,6 +180,7 @@ alias scp.sh='bash $happy/scp.sh'
 alias repeat='bash $happy/repeat.sh'
 alias sym='python $happy/rearrange_symbols.py'
 alias inneb.sh='bash $happy/inneb.sh'
+alias cgtime='bash $happy/cgtime.sh'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
