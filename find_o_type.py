@@ -66,7 +66,7 @@ for i in o_index:
     elif len(neighbors) == 0 and len(h_neighbors) == 2:
         h1_neighbor, h1_d = h_neighbors[0]
         h2_neighbor, h2_d = h_neighbors[1]
-        row.update({'O_type': 'H2O', 'H1_idx': int(h_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d})
+        row.update({'O_type': 'H2O', 'H1_idx': int(h1_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d})
     elif len(neighbors) == 1 and len(h_neighbors) == 0:
         o_neighbor, o_d = neighbors[0]
         row.update({'O_type': 'O2', 'O2_idx': int(o_neighbor), 'd(O1-O2)(Å)': o_d})
