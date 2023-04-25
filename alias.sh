@@ -130,6 +130,7 @@ export PYTHONPATH=$aloha:$PYTHONPATH
 export PATH=~/bin:$PATH
 export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
+export ASE_VASP_VDW=~/bin
 
 # --- ASE --- #
 alias convf='ase convert -f -n -1 OUTCAR final_with_calculator.json && ls'
@@ -207,6 +208,7 @@ alias findo='python $happy/find_o_type.py'
 alias fp='python $happy/find_o_type.py -i POSCAR'
 alias fc='python $happy/find_o_type.py -i CONTCAR'
 alias distance='python $happy/getdistance_pair.py'
+alias showimg='python $happy/show_ini_fin.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
