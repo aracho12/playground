@@ -23,3 +23,5 @@ alias fstat='mc sacct.sh'
 alias pot='python $happy/POTCAR_54.py'
 alias qstat='squeue --me'
 export PATH=/global/homes/a/aracho/packmol-20.14.0:$PATH
+export VTST_PATH=~/bin/vtstscripts-1033
+export PATH=$VTST_PATH:$PATH
