@@ -2,12 +2,21 @@
 # ----------- :: Information :: ----------------
 # By Ara Cho, POSTECH, Korea @10/30/2021
 # --------------- :: note :: -------------------
-# Show table of calculation results 
-#
+# Show table of calculation results  
 # ----------------------------------------------
 
-dir=$(ls -d */)
-#echo $dir
+exec 2>/dev/null
+
+dir=""
+all_dir=$(ls -d */)
+for fol in $all_dir 
+do
+	if [[ $fol =~ ^[0-9] ]]; then
+		dir="$dir $fol"
+	fi
+done
+
+
 rm ~/.data ; touch ~/.data
 rm ~/.e0 ; touch ~/.e0
 
@@ -36,7 +45,11 @@ do
         fi
     else
         if test -e ".me" ; then
-            qg=$(qstat | grep "$id " | grep " Q ")
+			if [[ $server == 'cori' || $server == 'perl' ]]; then
+				qg=$(squeue -u aracho | grep "$id " | grep " PD " )
+			else
+            	qg=$(qstat | grep "$id " | grep " Q ")
+			fi
             if [[ -z $qg ]]; then
                 stat="Not_Sub"
             else
@@ -70,13 +83,16 @@ do
 		ks=$(head -4 KPOINTS | tail -1)
 		ks_list=($ks)
 		k1=${ks_list[0]}; k2=${ks_list[1]}; k3=${ks_list[2]}
-		kpts=$(echo "$k1 × $k2 × $k3")
+		kpts=$(echo "$k1×$k2×$k3")
 		echo -e "$E0" >> ~/.e0
 	else
 		kpts="No_input"
 	fi
+
+	time=$(bash $happy/duration.sh)
 	echo -e "$E0" >> ~/.e0
-	echo -e "$i $iter $E0 $dE $stat $kpts" >> ~/.data
+	echo -e "$i $iter $E0 $dE $stat $kpts $time " >> ~/.data
+	#echo $kpts
 	cd ..
 done
 
@@ -85,13 +101,14 @@ MIN=$(cat ~/.e0 | sort -n | head -1)
 echo $MIN
 
 
-printf '\033[95mFol           iter      E0      dE      relE   Status     Kpts \n\033[37m\e[0m'
-echo "————————————— ————— ————————— ——————— ——————— ————————— —————————— "
-cat ~/.data | while read i iter e0 de stat kpts
+printf '\033[95mFol           iter      E0      dE      relE   Status     Kpts     Time\n\033[37m\e[0m'
+echo "————————————— ————— ————————— ——————— ——————— ————————— —————————— ——————————"
+cat ~/.data | while read i iter e0 de stat kpts time
 do
 	rel=$(echo $e0 $MIN | awk '{printf "%.2f", $1 - $2}')
 	if [[ -z $rel ]]; then
 		rel="Not_Sub"
 	fi
-	printf '%-14s %-3s %-10s %-8s %-6s %-10s %-10s\n' "$i" "$iter" "$e0" "$de" "$rel" "$stat" "$kpts"
+	printf '%-14s %-3s %-10s %-8s %-6s %-10s %-10s %-12s \n' "$i" "$iter" "$e0" "$de" "$rel" "$stat" "$kpts" "$time"
 done
+
