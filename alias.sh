@@ -113,6 +113,8 @@ git pull
 cd $dir_now'
 alias pull='git pull'
 alias push='git push'
+alias getbader='chgsum.pl AECCAR0 AECCAR2
+bader CHGCAR -ref CHGCAR_sum'
 
 # --- VARIABLES --- #
 export VTST_PATH=~/bin/vtstscripts-1022
