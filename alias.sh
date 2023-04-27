@@ -213,6 +213,7 @@ alias fp='python $happy/find_o_type.py -i POSCAR'
 alias fc='python $happy/find_o_type.py -i CONTCAR'
 alias distance='python $happy/getdistance_pair.py'
 alias showimg='python $happy/show_ini_fin.py'
+alias hbond='python $happy/hbond.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
