@@ -12,6 +12,7 @@ O(40) -- H(46) : 1.695 Å
 """
 
 from ase.io import read
+import sys
 
 if len(sys.argv)==2:
     if sys.argv[1] == '-h':
