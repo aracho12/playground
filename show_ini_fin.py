@@ -1,13 +1,10 @@
 """
-Ara Cho, Mar, 2023 @SUNCAT
+Ara Cho, Apr 2023 @SUNCAT
 description: generate POSCAR and CONTCAR images from calculation folders
-usage: python show_ini_fin.py [dir path] default:'.'
-run this script in the directory where NEB folders (00,01,02..) are located
+usage: python show_ini_fin.py [-r]
+run this script in the directory where folders (00,01,02..) are located
 
 it requires ase_notebook package
-
-TODO:
-- seperate rows when the number of images is large
 """
 
 from ase_notebook import AseView, ViewConfig, get_example_atoms, concatenate_svgs, svg_to_pdf
@@ -133,7 +130,7 @@ def select_input():
             initial = next(fname for fname in os.listdir() if fname.startswith("initial_"))
         else:
             initial = "restart.json"
-        if max_force < 0.03:
+        if max_force <= 0.030:
             status='Converged'
         else:
             status='Not_converged'
@@ -171,6 +168,12 @@ dir_list = [name for name in os.listdir(fol) if os.path.isdir(name)]
 dir_list = [d for d in dir_list if d[-1].isdigit() and d[0].isdigit()]
 dir_list.sort()
 num_dir = len(dir_list)
+if num_dir == 0:
+    dir_list=['.']
+    num_dir=1
+    img_path='./img'
+else:
+    img_path='../img'
 print(dir_list)
 input_files=['ini', 'fin']
 # Get the number of rows and columns for the subplots
@@ -203,9 +206,12 @@ if repeat==False:
         textbox.set_text(f'{status}\nE0: {E0} eV\nMax force: {max_force} eV/A')
         fig.tight_layout()
         plt.subplots_adjust(bottom=0.1)
-        if not os.path.exists('../img'):
-            os.makedirs('../img')
-        plt.savefig('../img/{}.png'.format(dir_list[i]), dpi=250, bbox_inches='tight')
+        if not os.path.exists(f'{img_path}'):
+            os.makedirs(f'{img_path}')
+        if dir_list == ['.']:
+            plt.savefig(f'{img_path}/final_1x1.png', dpi=250, bbox_inches='tight')
+        else:
+            plt.savefig(f'{img_path}/{dir_list[i]}.png', dpi=250, bbox_inches='tight')
         print(f'{dir_list[i]}\t initial: {initial}, final: {final}')
         plt.close(fig)
         os.chdir('..')
@@ -234,9 +240,9 @@ elif repeat:
             # create folder
         fig.tight_layout()
 
-        if not os.path.exists('../img'):
-            os.makedirs('../img')
-        plt.savefig('../img/final_2x2_{}.png'.format(dir_list[i]), dpi=250, bbox_inches='tight')
+        if not os.path.exists(f'{img_path}'):
+            os.makedirs(f'{img_path}')
+        plt.savefig(f'{img_path}/final_2x2_{dir_list[i]}.png', dpi=250, bbox_inches='tight')
         print(f'{dir_list[i]}\t initial: {initial}, final: {final}')
         plt.close(fig)
         os.chdir('..')
