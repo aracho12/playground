@@ -20,6 +20,10 @@ if len(sys.argv)==2:
     else:
         input_file=sys.argv[1]
         print("Input file: ", input_file)
+else:
+    input_file='final_with_calculator.json'
+    print("Input file: ", input_file)
+    
 atoms = read(input_file)
 
 cutoff = 2.3
