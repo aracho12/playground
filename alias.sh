@@ -188,6 +188,7 @@ alias lasub='ls -la */.sub*'
 alias ts.sh='bash $happy/duration.sh'
 alias rmchg='bash $happy/rmchg.sh'
 alias resub='bash $happy/resub.sh'
+alias rma='bash $happy/rma.sh'
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
