@@ -136,3 +136,10 @@ printf '\033[95m\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\033[37m' "$iter" "$E0" "$dE" "$
 ) | column -t -s $'\t'
 echo -e $line
 
+if [ $here == "cori" ] || [ $here == 'perl' ] ; then
+	if [[ -n $qstat_jn ]]; then
+		echo -e ""
+		sqs | head -1
+		sqs | grep $id
+	fi
+fi
