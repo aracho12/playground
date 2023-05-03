@@ -13,6 +13,7 @@ else
     jobtype='slurm'
     sub='sbatch'
 fi
+source $happy/here.sh
 #---------------------------------------#
 
 if test -e run_slurm.sh ; then
@@ -31,4 +32,6 @@ fi
 
 if [ $jobtype == 'pbs' ]; then
     sed -i "/^#PBS -l walltime=/c\#PBS -l walltime=$hours:00:00" $run
+elif [ $here == 'cori' ]; then
+	sed -i "/^#SBATCH -t/c\#SBATCH -t $hours:00:00" $run
 fi
