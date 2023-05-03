@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source $happy/here.sh
+
 if [[ -n $1 ]] ; then
 	ls=$(grep --color=auto $1 ~/.sublist)
 	#echo $ls
@@ -25,7 +27,11 @@ cd $path
 if test -e "OUTCAR" ; then
 	string=$(grep "Voluntary" OUTCAR)
 	if [[ -z $string ]]; then
-		qstat_jn=$(qstat | grep $id)
+		if [ $here == 'burning' ] ; then
+			qstat_jn=$(qstat | grep $id)
+		elif [ $here == 'cori' ] || [ $here == 'perl' ] ; then
+			qstat_jn=$(sqs | grep $id)
+		fi
 		if [[ -z $qstat_jn ]]; then
 			stt="ERROR"
 		else
@@ -42,7 +48,7 @@ if test -e "KPOINTS" ; then
 	ks=$(head -4 KPOINTS | tail -1)
 	ks_list=($ks)
 	k1=${ks_list[0]}; k2=${ks_list[1]}; k3=${ks_list[2]}
-	kpts=$(echo " $k1"×"$k2"×"$k3")
+	kpts=$(echo " $k1"x"$k2"x"$k3")
 else
 	kpts='-'
 fi
@@ -82,11 +88,51 @@ if test -e "INCAR" ; then
 else
 	gga="-"
 fi
-line="======================================================"
+
+if test -e "OUTCAR" ; then
+    vasp=$(grep vasp OUTCAR)
+    if [[ -z $vasp ]]; then
+        vasp='?'
+    else
+        vs=($vasp)
+        vasp=$(echo "${vs[0]}" | cut -c -11 |awk '{printf $1}')
+    fi
+else
+    vasp='-'
+fi
+
+if test -e "INCAR" ; then
+    vdw=$(cat INCAR | egrep -v '^[[:space:]]*(#.*)?$' | grep IVDW)
+    if [[ $vdw == *"12"* ]]; then
+        vdw="DFT-D3(12)"
+    elif [[ $vdw =~ "11" ]]; then
+        vdw="DFT-D3(11)"
+    elif [[ $vdw =~ "10" ]] || [[ $vdw =~ "1" ]]; then
+        vdw="DFT-D2(10)"
+    elif [[ $vdw =~ "13" ]]; then
+        vdw="DFT-D4(13)"
+    elif [[ -z $vdw ]]; then
+        vdw=$(cat INCAR | egrep -v '^[[:space:]]*(#.*)?$' | grep LVDW)
+        if [[ -z $vdw ]]; then
+            vdw="None"
+            if [[ $gga == "BEEF" ]]; then
+                vdw="BEEF"
+            fi
+        else
+            vdw="DFT-D2"
+        fi
+    else
+        vdw="?"
+    fi
+else
+        vdw="None"
+fi
+
+line="================================================================================="
 echo -e $line
 (
-printf '\t iter\t E0\t dE\t Status\t KPOINTS\t XC\n' 
-printf '\033[95m\t%s\t%s\t%s\t%s\t%s\t%s\033[37m' "$iter" "$E0" "$dE" "$stt" "$kpts" "$gga" 
+printf '  iter\t E0\t    dE\t Status\t KPOINTS\t XC\t IVDW\t    VASP\n' 
+printf '\033[95m\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\033[37m' "$iter" "$E0" "$dE" "$stt" "$kpts" "$gga" "$vdw" "$vasp" 
 ) | column -t -s $'\t'
 echo -e $line
 

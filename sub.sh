@@ -16,7 +16,7 @@ job_name=${jobname2[1]}
 
 source $happy/here.sh
 
-if [[ -n $1 ]] || [[ -z $2 ]] ; then
+if [[ -n $1 ]] && [[ -z $2 ]] ; then
 	if [ $1 == '-r' ] ; then
 		if test -e "run_submit.sh" ; then
 			name=$(grep "job-name=" run_submit.sh | cut -d'=' -f2 | tr -d '"')
@@ -148,6 +148,8 @@ change
 if [[ -z $2 ]] ; then
 		bash $happy/sub_only_one_job.sh
 elif [[ -n $2 ]] ; then
+	INI=$1
+	FIN=$2
 	echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— "
 	echo -e "submit jobs from $INI to $FIN"
     echo -e "\033[93;03m———————————————————————————————————————————————————————————————————————— $dW"
