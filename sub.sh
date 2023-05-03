@@ -16,7 +16,7 @@ job_name=${jobname2[1]}
 
 source $happy/here.sh
 
-if [[ -n $1 ]] ; then
+if [[ -n $1 ]] || [[ -z $2 ]] ; then
 	if [ $1 == '-r' ] ; then
 		if test -e "run_submit.sh" ; then
 			name=$(grep "job-name=" run_submit.sh | cut -d'=' -f2 | tr -d '"')
