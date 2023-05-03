@@ -191,6 +191,8 @@ alias resub='bash $happy/resub.sh'
 alias rma='bash $happy/rma.sh'
 alias mvc='bash $happy/mvc.sh'
 alias resizecell='python $happy/change_cell_size.py'
+alias getid='source $happy/getid.sh'
+
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
 alias getrst='python $happy/get_restart.py'
