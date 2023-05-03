@@ -7,6 +7,8 @@
 
 exec 2>/dev/null
 
+source $happy/here.sh
+
 dir=""
 all_dir=$(ls -d */)
 for fol in $all_dir 
@@ -34,7 +36,11 @@ do
     if test -e "OUTCAR" ; then
         string=$(grep "Voluntary" OUTCAR)
         if [[ -z $string ]]; then
-            qstat_jn=$(qstat | grep $id)
+			if [ $here == 'burning' ] ; then
+            	qstat_jn=$(qstat | grep $id)
+			elif [ $here == 'cori' ] || [ $here == 'perl' ] ; then
+				qstat_jn=$(squeue --me | grep $id)
+			fi
             if [[ -z $qstat_jn ]]; then
                 stat="Stopped"
             else
@@ -45,8 +51,8 @@ do
         fi
     else
         if test -e ".me" ; then
-			if [[ $server == 'cori' || $server == 'perl' ]]; then
-				qg=$(squeue -u aracho | grep "$id " | grep " PD " )
+			if [[ $here == 'cori' || $here == 'perl' ]]; then
+				qg=$(squeue --me | grep "$id " | grep " PD " )
 			else
             	qg=$(qstat | grep "$id " | grep " Q ")
 			fi
@@ -74,10 +80,15 @@ do
         	dE=$(echo "${E0_array[7]}" |cut -c 2- |awk '{printf "%.4f", $1}')
 		fi
 	else
+		if test -e "final_with_calculator.json" ; then
+			E0=$(grep 'energy' final_with_calculator.json | head -1 | awk '{printf "%.5f", $2}')
+		else
+			E0='-'
+		fi
 		iter='-'
-		E0='-'
 		dE='-'
 	fi
+
 		# KPOINTS
 	if test -e "KPOINTS" ; then
 		ks=$(head -4 KPOINTS | tail -1)

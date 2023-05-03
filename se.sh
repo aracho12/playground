@@ -30,7 +30,7 @@ if test -e "OUTCAR" ; then
 		if [ $here == 'burning' ] ; then
 			qstat_jn=$(qstat | grep $id)
 		elif [ $here == 'cori' ] || [ $here == 'perl' ] ; then
-			qstat_jn=$(sqs | grep $id)
+			qstat_jn=$(squeue --me | grep $id)
 		fi
 		if [[ -z $qstat_jn ]]; then
 			stt="ERROR"
