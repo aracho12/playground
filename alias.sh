@@ -220,6 +220,7 @@ alias fc='python $happy/find_o_type.py CONTCAR'
 alias distance='python $happy/getdistance_pair.py'
 alias showimg='python $happy/show_ini_fin.py'
 alias hbond='python $happy/hbond.py'
+alias wrap='python $happy/wrap_cell.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 # --- INCAR --- #
