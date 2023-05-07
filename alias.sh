@@ -221,6 +221,7 @@ alias distance='python $happy/getdistance_pair.py'
 alias showimg='python $happy/show_ini_fin.py'
 alias hbond='python $happy/hbond.py'
 alias wrap='python $happy/wrap_cell.py'
+alias cprdf='cp $happy/rdf.py .'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 # --- INCAR --- #
