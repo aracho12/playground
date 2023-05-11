@@ -224,6 +224,7 @@ alias wrap='python $happy/wrap_cell.py'
 alias cprdf='cp $happy/rdf.py .'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
+alias getpdf='python $happy/fluctuation.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
