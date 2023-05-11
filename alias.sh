@@ -225,6 +225,7 @@ alias cprdf='cp $happy/rdf.py .'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
+alias ozdist='python $happy/oz_distribution.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
