@@ -1,6 +1,6 @@
 # --- Color --- #
 
-LS_COLORS=$LS_COLORS:'*DONE=01;4;31:di=1;36:*.py=1;38;5;123:*.cif=01;35:*.txt=01;35:*.dat=01;35:*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:*.sh=01;35' ; export LS_COLORS
+LS_COLORS=$LS_COLORS:'*.pdf=1;35:*.log=1;32:*DONE=01;4;31:di=1;36:*.py=1;38;5;123:*.cif=01;35:*.txt=01;33:*.dat=01;35:*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:*.sh=01;35' ; export LS_COLORS
 
 export re='\e[0m' # regular
 export bd='\e[1m' # color + bold
@@ -220,7 +220,7 @@ alias fc='python $happy/find_o_type.py CONTCAR'
 alias distance='python $happy/getdistance_pair.py'
 alias showimg='python $happy/show_ini_fin.py'
 alias hbond='python $happy/hbond.py'
-alias wrap='python $happy/wrap_cell.py'
+alias wrap='python $happy/wrap_cell.py -i'
 alias cprdf='cp $happy/rdf.py .'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
