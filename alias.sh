@@ -229,7 +229,7 @@ alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
 alias ozdist='python $happy/oz_distribution.py'
 alias rdf='python $happy/rdf.py'
-alias layer='python $happy/layer_grouping.py'
+alias layer='python $happy/layer_grouping.py -i'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 # --- TRASH --- #
