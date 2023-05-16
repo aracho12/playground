@@ -222,6 +222,8 @@ alias showimg='python $happy/show_ini_fin.py'
 alias hbond='python $happy/hbond.py'
 alias wrap='python $happy/wrap_cell.py -i'
 alias cprdf='cp $happy/rdf.py .'
+alias pov='python $happy/povshot.py -i'
+alias cppov='cp $happy/povshot.py .'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
