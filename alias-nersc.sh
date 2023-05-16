@@ -25,3 +25,5 @@ alias qstat='squeue --me'
 export PATH=/global/homes/a/aracho/packmol-20.14.0:$PATH
 export VTST_PATH=~/bin/vtstscripts-1033
 export PATH=$VTST_PATH:$PATH
+export PATH=/global/homes/a/aracho/bin/povray/bin:$PATH
+export MANPATH=/global/homes/a/aracho/bin/povray/man:$MANPATH
