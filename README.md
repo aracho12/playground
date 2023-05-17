@@ -41,3 +41,5 @@ script for vasp calculation
 - show\_ini\_fin.py: Generate POSCAR and CONTCAR images from calculation folders
 - showatoms.py: show the coordinates and information of atoms 
 
+# W
+- wrap\_cell.py: wrap cell and merge multiple XDATCAR files into one trajectory file
