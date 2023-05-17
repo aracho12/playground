@@ -1,4 +1,7 @@
-""" generating povray images from ase atoms objects """
+""" 
+generating povray images from ase atoms objects 
+ref: https://github.com/WMD-group/ASE-Tutorials/tree/master/povray-tools
+"""
 from ase.data import colors
 from ase.io import read, write
 from ase.io.trajectory import Trajectory
