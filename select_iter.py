@@ -33,11 +33,14 @@ else:
 if args.iteration:
     iteration=args.iteration
     print('iteration:', iteration)
+else:
+    iteration=0
+    print('iteration:', iteration)
 
 atoms=traj[iteration]
 if iteration == -1:
-    write(f'iteration_last.json', atoms)
+    write(f'iter_last.json', atoms)
 elif iteration == 0:
-    write(f'iteration_initial.json', atoms)
+    write(f'iter_initial.json', atoms)
 else:
-    write(f'iteration_{iteration}.json', atoms)
+    write(f'iter_{iteration}.json', atoms)
