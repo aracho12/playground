@@ -17,21 +17,25 @@ O_type  O1_idx  H1_idx H2_idx O2_idx  d(O1-H1)(Å) d(O1-H2)(Å) d(O1-O2)(Å)
 import pandas as pd
 from ase.io import read
 import os
-import argparse
 import numpy as np
+import sys
 
-parser = argparse.ArgumentParser()
-parser.add_argument('-i', '--input', help='input file', default='final_with_calculator.json')
-args = parser.parse_args()
-
-if args.input:
-    print('Your inputfile is:', args.input)
-    if os.path.exists(args.input):
-        atoms=read(args.input)
+if len(sys.argv)==2:
+    if sys.argv[1] == '-h':
+        print("Usage: python3 find_o_type.py [input_file]")
     else:
-        print('The input file does not exist.')
-        print('usage: python3 find_o_type.py -i filename')
+        input_file=sys.argv[1]
+else:
+    if os.path.exists('final_with_calculator.json'):
+        input_file='final_with_calculator.json'
+    else:
+        print("Usage: python3 find_o_type.py [input_file]")
         exit()
+print("Input file: ", input_file)   
+
+atoms=read(input_file)
+
+
 
 o_index = [atom.index for atom in atoms if atom.symbol=='O']
 h_index = [atom.index for atom in atoms if atom.symbol=='H']
@@ -67,6 +71,11 @@ for i in o_index:
         h1_neighbor, h1_d = h_neighbors[0]
         h2_neighbor, h2_d = h_neighbors[1]
         row.update({'O_type': 'H2O', 'H1_idx': int(h1_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d})
+    elif len(neighbors) == 0 and len(h_neighbors) == 3:
+        h1_neighbor, h1_d = h_neighbors[0]
+        h2_neighbor, h2_d = h_neighbors[1]
+        h3_neighbor, h3_d = h_neighbors[2]
+        row.update({'O_type': 'H3O', 'H1_idx': int(h1_neighbor), 'd(O1-H1)(Å)': h1_d, 'H2_idx': int(h2_neighbor), 'd(O1-H2)(Å)': h2_d, 'H3_idx': int(h3_neighbor), 'd(O1-H3)(Å)': h3_d})
     elif len(neighbors) == 1 and len(h_neighbors) == 0:
         o_neighbor, o_d = neighbors[0]
         row.update({'O_type': 'O2', 'O2_idx': int(o_neighbor), 'd(O1-O2)(Å)': o_d})
@@ -74,7 +83,14 @@ for i in o_index:
     data.append(row)
 
 df = pd.DataFrame(data)
-new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'O2_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)', 'd(O1-O2)(Å)']
+if 'H3_idx' not in df.columns:
+    new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'O2_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)', 'd(O1-O2)(Å)']
+elif 'O2_idx' not in df.columns:
+    new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'H3_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)', 'd(O1-H3)(Å)']
+elif 'H3_idx' not in df.columns and 'O2_idx' not in df.columns:
+    new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)']
+else:
+    new_order = ['O_type', 'O1_idx', 'H1_idx', 'H2_idx', 'O2_idx', 'H3_idx', 'd(O1-H1)(Å)', 'd(O1-H2)(Å)', 'd(O1-H3)(Å)', 'd(O1-O2)(Å)']
 df = df.reindex(columns=new_order)
 df = df.dropna(subset=['O_type'])
 
@@ -90,8 +106,6 @@ idx_cols = [col for col in df.columns if 'idx' in col]
 dist_cols = [col for col in df.columns if 'd(' in col]
 
 # remove the rows when O_type is O2, [O1_idx, O2_idx] are duplicated
-
-
 
 df = df.dropna(subset=['O_type'])
 df = df.replace('', float('nan'))
