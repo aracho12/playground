@@ -233,6 +233,7 @@ alias showlayer='python $happy/layer_grouping.py -i'
 alias iter='python $happy/select_iter.py -i'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
+alias incar.sh='bash $happy/incar.sh'
 # --- TRASH --- #
 
 ~/bin/empty_basket 2
