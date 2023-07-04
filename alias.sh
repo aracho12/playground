@@ -231,6 +231,7 @@ alias ozdist='python $happy/oz_distribution.py'
 alias rdf='python $happy/rdf.py'
 alias showlayer='python $happy/layer_grouping.py -i'
 alias iter='python $happy/select_iter.py -i'
+alias plotsp='python $happy/plot_morse.py'
 alias morse='python $happy/morse_potential.py'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
