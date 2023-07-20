@@ -129,6 +129,7 @@ export play=~/bin/playground
 export PYTHONPATH=~/bin:$PYTHONPATH
 export PYTHONPATH=$happy:$PYTHONPATH
 export PYTHONPATH=$aloha:$PYTHONPATH
+export PATH=$aloha:$PATH
 export PATH=~/bin:$PATH
 export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
