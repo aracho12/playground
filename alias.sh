@@ -241,6 +241,6 @@ alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- TRASH --- #
 
-~/bin/empty_basket 2
+~/bin/empty_basket 1
 
 # remove files which have been more than certain days in (home)/_TRASH
