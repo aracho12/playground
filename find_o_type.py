@@ -129,13 +129,13 @@ df = df.dropna(subset=['O_type'])
 df = df.replace('', float('nan'))
 df = df.fillna(0)
 
-# if 'O2' in df['O_type'].unique():
-#     o2_df = df[df['O_type'] == 'O2'].copy()
-#     o2_df[['O1_idx', 'O2_idx']] = np.sort(o2_df[['O1_idx', 'O2_idx']], axis=1)
-#     df.loc[df['O_type'] == 'O2', ['O1_idx', 'O2_idx']] = o2_df[['O1_idx', 'O2_idx']]
+if 'O2' in df['O_type'].unique():
+    o2_df = df[df['O_type'] == 'O2'].copy()
+    o2_df[['O1_idx', 'O2_idx']] = np.sort(o2_df[['O1_idx', 'O2_idx']], axis=1)
+    df.loc[df['O_type'] == 'O2', ['O1_idx', 'O2_idx']] = o2_df[['O1_idx', 'O2_idx']]
 
-#     o2_df = o2_df.drop_duplicates(subset=['O1_idx', 'O2_idx'], keep='first')
-#     df = pd.concat([df[df['O_type'] != 'O2'], o2_df])
+    o2_df = o2_df.drop_duplicates(subset=['O1_idx', 'O2_idx'], keep='first')
+    df = pd.concat([df[df['O_type'] != 'O2'], o2_df])
 
 # remove the rows when O_type is O2, [O1_ids or O2_idx] are included in OOH already.
 
