@@ -1,7 +1,7 @@
 """
 Ara Cho, Mar, 2023 @SUNCAT
 description: distinguish the OOH, OH and O atoms in the input file.
-usage: python3 find_o_type.py -i [filename]
+usage: python3 find_o_type.py [filename]
 
 Output: print following table 
 O_type  O1_idx  H1_idx H2_idx O2_idx  d(O1-H1)(Å) d(O1-H2)(Å) d(O1-O2)(Å)
@@ -19,26 +19,44 @@ from ase.io import read
 import os
 import numpy as np
 import sys
+import subprocess
 
+cutoff=0
 if len(sys.argv)==2:
     if sys.argv[1] == '-h':
-        print("Usage: python3 find_o_type.py [input_file]")
+        print("Usage: python3 find_o_type.py [input_file] [-s]")
     else:
         input_file=sys.argv[1]
+elif len(sys.argv)==3:
+    input_file=sys.argv[1]
+    if not os.path.exists(input_file):
+        print("{} is not exists".format(input_file))
+        exit()
+    if sys.argv[2] == '-s':
+        subprocess.call('python ~/bin/for_a_happy_life/layer_grouping.py -i {}'.format(input_file), shell=True)
+        print("")
+        cutoff_in=input('please enter a cutoff value for a z direction: ')
+        cutoff=float(cutoff_in)
 else:
     if os.path.exists('final_with_calculator.json'):
         input_file='final_with_calculator.json'
     else:
+        print(sys.argv)
         print("Usage: python3 find_o_type.py [input_file]")
         exit()
 print("Input file: ", input_file)   
 
+
 atoms=read(input_file)
 
 
-
-o_index = [atom.index for atom in atoms if atom.symbol=='O']
-h_index = [atom.index for atom in atoms if atom.symbol=='H']
+if cutoff == 0:
+    o_index = [atom.index for atom in atoms if atom.symbol=='O']
+    h_index = [atom.index for atom in atoms if atom.symbol=='H']
+else:
+    print("Cutoff: ", cutoff)
+    o_index = [atom.index for atom in atoms if atom.symbol=='O' and atom.z < cutoff]
+    h_index = [atom.index for atom in atoms if atom.symbol=='H' and atom.z < cutoff]
 
 data = []
 
@@ -111,13 +129,28 @@ df = df.dropna(subset=['O_type'])
 df = df.replace('', float('nan'))
 df = df.fillna(0)
 
-if 'O2' in df['O_type'].unique():
-    o2_df = df[df['O_type'] == 'O2'].copy()
-    o2_df[['O1_idx', 'O2_idx']] = np.sort(o2_df[['O1_idx', 'O2_idx']], axis=1)
-    df.loc[df['O_type'] == 'O2', ['O1_idx', 'O2_idx']] = o2_df[['O1_idx', 'O2_idx']]
+# if 'O2' in df['O_type'].unique():
+#     o2_df = df[df['O_type'] == 'O2'].copy()
+#     o2_df[['O1_idx', 'O2_idx']] = np.sort(o2_df[['O1_idx', 'O2_idx']], axis=1)
+#     df.loc[df['O_type'] == 'O2', ['O1_idx', 'O2_idx']] = o2_df[['O1_idx', 'O2_idx']]
 
-    o2_df = o2_df.drop_duplicates(subset=['O1_idx', 'O2_idx'], keep='first')
-    df = pd.concat([df[df['O_type'] != 'O2'], o2_df])
+#     o2_df = o2_df.drop_duplicates(subset=['O1_idx', 'O2_idx'], keep='first')
+#     df = pd.concat([df[df['O_type'] != 'O2'], o2_df])
+
+# remove the rows when O_type is O2, [O1_ids or O2_idx] are included in OOH already.
+
+ooh_df = df[df['O_type'] == 'OOH']
+o2_df = df[df['O_type'] == 'O2']
+
+o2_to_remove = []
+for idx, row in o2_df.iterrows():
+    o1, o2 = row['O1_idx'], row['O2_idx']
+    if o1 in ooh_df['O1_idx'].values or o1 in ooh_df['O2_idx'].values or \
+       o2 in ooh_df['O1_idx'].values or o2 in ooh_df['O2_idx'].values:
+        o2_to_remove.append(idx)
+
+df = df.drop(index=o2_to_remove).reset_index(drop=True)
+
 
 for col in idx_cols:
     df[col] = df[col].astype(int)
