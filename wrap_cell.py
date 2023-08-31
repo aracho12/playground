@@ -14,19 +14,22 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('-i', '--input', help='input file(s)', type=str, nargs='+')
 parser.add_argument('-o', '--output', help='output file', type=str)
+parser.add_argument('-c', '--cutoff', help='cutoff iteration of first file', type=int)
 args = parser.parse_args()
 
 if args.input:
     print('Your inputfile is:', args.input)
     input_files=args.input
     if len(input_files)==1:
-        input_files=input_files[0]
+        #input_files=input_files[0]
         if 'XDATCAR' in input_files:
             multi=True
         elif 'CONTCAR' or 'POSCAR' in input_files:
             multi=False
+            input_files=input_files[0]
             filename=input_files
         elif 'json' in input_files:
+            input_files=input_files[0]
             multi=False
             extension=input_files.split('.')[-1]
             filename=input_files.split('.')[0]
@@ -51,17 +54,24 @@ else:
         else:
             output_file=f'{filename}_wrap.vasp'
 
+if args.cutoff:
+    cutoff=args.cutoff
+    print(f'cutoff iteration of the first file: {cutoff}')
+else:
+    cutoff=1
 if multi:
     if len(input_files) > 1:
-        traj2=Trajectory('aimd_sum.traj', 'w')
+        traj2=Trajectory(output_file, 'w')
         print("Multiple input files are given. The output file is aimd_sum.traj")
     else:
         traj2=Trajectory('aimd.traj', 'w')
         print("The output file is aimd.traj")
 
-    for input_file in input_files:
+    for i, input_file in enumerate(input_files):
         traj = read_vasp_xdatcar(input_file,index=0)
-        for atoms in traj:
+        for j, atoms in enumerate(traj):
+            if i==0 and j in list(range(1,cutoff)):
+                continue
             atoms.set_cell([atoms.cell[0],atoms.cell[1],atoms.cell[2]],scale_atoms=True)
             atoms.wrap()
             traj2.write(atoms)
