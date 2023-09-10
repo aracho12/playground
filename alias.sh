@@ -196,7 +196,7 @@ alias mvc='bash $happy/mvc.sh'
 alias resizecell='python $happy/change_cell_size.py'
 alias getid='source $happy/getid.sh'
 alias m2997='chgrp -R m2997 ./; chmod -R g+r ./; chmod -R g+X ./'
-alias con2cif='bash $happy/aseconvert.sh'
+alias fcif='bash $happy/aseconvert.sh'
 
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
