@@ -12,5 +12,6 @@ alias pes='$pes/backup aracho@perlmutter-p1.nersc.gov:/pscratch/sd/a/aracho/01_P
 
 alias eoga='open *.png'
 alias jl='jupyter-lab --no-browser'
-#export PATH=/Users/aracho/.local/bin:$PATH
-#export PYTHONPATH=/Users/aracho/.local/bin:$PYTHONMATH
+export PATH=/Users/aracho/.local/bin:$PATH
+export PYTHONPATH=/Users/aracho/.local/bin:$PYTHONMATH
+export crada=/Users/aracho/Dropbox/0-Research/CRADA
