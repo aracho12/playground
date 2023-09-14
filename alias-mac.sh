@@ -16,4 +16,3 @@ export PATH=/Users/aracho/.local/bin:$PATH
 export PYTHONPATH=/Users/aracho/.local/bin:$PYTHONPATH
 export PYTHONPATH=/Users/aracho/bin/CATMAP_source/catmap:$PYTHONPATH
 export crada=/Users/aracho/Dropbox/0-Research/CRADA
-alias sdf='ssh -X -Y aracho@sdf-login.slac.stanford.edu'
