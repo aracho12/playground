@@ -143,6 +143,7 @@ alias pickle='python3 -m ase.io.trajectory *.traj'
 
 
 # --- Alias --- #
+alias touchall='find . -type f -exec touch {} +'
 alias cmc='cd $happy'
 alias cgrun='bash $happy/cgrun.sh'
 alias qdel='bash $happy/qdel.sh'
@@ -167,6 +168,7 @@ alias vialias='vi $play/alias.sh'
 alias cgrun='bash $happy/cgrun.sh'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias cs='source cs.sh'
+alias s='cd $SCRATCH'
 alias ckrun='ckrun.sh'
 alias cg='bash $happy/sg.sh'
 alias rus='bash $happy/srus.sh'
