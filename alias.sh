@@ -149,7 +149,7 @@ alias cgrun='bash $happy/cgrun.sh'
 alias qdel='bash $happy/qdel.sh'
 alias se='bash $happy/se.sh'
 alias to='sec2hhmmdd.sh'
-#alias go='. $happy/go.sh'
+alias go='. $happy/go.sh'
 alias showatoms='python $happy/showatoms.py'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias fix='python $happy/fixslab.py'
@@ -231,6 +231,9 @@ alias wrap='python $happy/wrap_cell.py -i'
 alias cprdf='cp $happy/rdf.py .'
 alias pov='python $happy/povshot.py -i'
 alias cppov='cp $happy/povshot.py .'
+
+# --- QE --- #
+alias qsub='bash $happy/sub-qe.sh'
 
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
