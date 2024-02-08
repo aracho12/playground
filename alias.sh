@@ -234,6 +234,10 @@ alias cppov='cp $happy/povshot.py .'
 
 # --- QE --- #
 alias qsub='bash $happy/sub-qe.sh'
+alias conf='bash $happy/conf.sh'
+
+# --- CRADA --- #
+alias plotf='python $happy/plots/print_and_plot_field.py'
 
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
