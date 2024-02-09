@@ -239,6 +239,7 @@ alias conf='bash $happy/conf.sh'
 # --- CRADA --- #
 alias plotf='python $happy/plots/print_and_plot_field.py'
 alias iterangle='python $happy/plots/plot_iter_angle.py'
+alias rerun='bash $happy/execute_previous_command.sh'
 
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
