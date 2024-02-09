@@ -240,6 +240,7 @@ alias conf='bash $happy/conf.sh'
 alias plotf='python $happy/plots/print_and_plot_field.py'
 alias iterangle='python $happy/plots/plot_iter_angle.py'
 alias rerun='bash $happy/execute_previous_command.sh'
+alias mkfol='bash $happy/sdf/mk_active_sites_dirs.sh'
 
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
