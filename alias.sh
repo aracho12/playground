@@ -96,9 +96,9 @@ cd $dir_now'
 alias happy='dir_now=$PWD
 cd ~/bin/for_a_happy_life
 git pull
-git add *
-git commit -m "."
-git push
+#git add *
+#git commit -m "."
+#git push
 cd $dir_now'
 alias play='dir_now=$PWD
 cd ~/bin/playground
