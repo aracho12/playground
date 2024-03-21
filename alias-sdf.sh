@@ -2,3 +2,5 @@ alias fstat='date -d yesterday |sacct --format="JobID,JobName%30,Partition,Elaps
 alias cpsn='bash $happy/sdf/cp_file_sync_sdf.sh'
 alias rmsn='bash $happy/sdf/del_file_in_sdf.sh'
 alias cpvp='cp ~/bin/vasp/* .'
+alias cpvasp='cp ~/bin/vasp/submit-vasp.sh . && cp ~/bin/vasp/run_relax.py .'
+alias zpe='python $happy/sdf/qe_zpe_entropy.py'
