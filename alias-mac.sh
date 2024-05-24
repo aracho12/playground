@@ -15,6 +15,7 @@ alias jl='jupyter-lab --no-browser'
 export PATH=/Users/aracho/.local/bin:$PATH
 export PYTHONPATH=/Users/aracho/.local/bin:$PYTHONPATH
 export PYTHONPATH=/Users/aracho/bin/CATMAP_source/catmap:$PYTHONPATH
+export PYTHONPATH=/Users/aracho/bin/ase-notebook:$PYTHONPATH
 export crada=/Users/aracho/Dropbox/0-Research/CRADA
 alias happy='dir_now=$PWD
 cd ~/bin/for_a_happy_life
