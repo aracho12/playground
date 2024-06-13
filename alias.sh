@@ -244,7 +244,8 @@ alias mkfol='bash $happy/sdf/mk_active_sites_dirs.sh'
 alias qs='bash $happy/qstat.sh'
 alias plotcov='python $happy/plots/catmap_plot_coverage.py'
 alias plotsel='python $happy/plots/catmap_plot_selectivity.py'
-
+alias mkmplot='python $happy/mkm/mkm_plotter.py'
+alias mkmrun='pyyhon $happy/mkm/mkm_run.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
