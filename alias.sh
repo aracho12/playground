@@ -245,7 +245,7 @@ alias qs='bash $happy/qstat.sh'
 alias plotcov='python $happy/plots/catmap_plot_coverage.py'
 alias plotsel='python $happy/plots/catmap_plot_selectivity.py'
 alias mkmplot='python $happy/mkm/mkm_plotter.py'
-alias mkmrun='python $happy/mkm/mkm_run.py'
+alias mkmrun='python $happy/mkm/run_mkm.py'
 alias cpmkm='python $happy/mkm/copy_input.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
