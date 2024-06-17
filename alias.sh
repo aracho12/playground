@@ -247,6 +247,7 @@ alias plotsel='python $happy/plots/catmap_plot_selectivity.py'
 alias mkmplot='python $happy/mkm/mkm_plotter.py'
 alias mkmrun='python $happy/mkm/run_mkm.py'
 alias cpmkm='python $happy/mkm/copy_input.py'
+alias fed='python $happy/mkm/FED_plotter.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
