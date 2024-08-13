@@ -31,6 +31,7 @@ if [[ $SHELL == '/bin/bash' ]] ; then
 	alias sbash='source ~/.bashrc'
 	alias ls='ls --color=auto -h --group-directories-first'
 	alias l='ls --color=auto -h --group-directories-first'
+	alias ll='ls -ltr -h'
 elif [[ $SHELL == '/bin/zsh' ]] ; then
 	alias vbash='vi ~/.zshrc'
 	alias vzsh='vi ~/.zshrc'
