@@ -52,6 +52,8 @@ alias dush='du -h | sort -rh | head -20'
 alias rm='~/bin/rm_mv'
 alias sh='/bin/bash'
 alias py='python'
+source ~/bin/open_finder_tab.sh
+alias op='oft .'
 
 # --- Git --- #
 gitupdate(){
@@ -248,6 +250,7 @@ alias plotmkm='python $happy/mkm/mkm_plotter.py'
 alias runmkm='python $happy/mkm/run_mkm.py'
 alias cpmkm='python $happy/mkm/copy_input.py'
 alias fed='python $happy/mkm/FED_plotter.py'
+alias optsv='python $happy/mkm/temperature_gui.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
