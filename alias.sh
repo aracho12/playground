@@ -125,17 +125,22 @@ export happy=~/bin/for_a_happy_life
 export aloha=~/bin/aloha
 export orange=~/bin/orange
 export play=~/bin/playground
+export sunshine=~/bin/sunshine
+export eevee=~/bin/eevee/src
 
 
 # --- PATH --- #
 export PYTHONPATH=~/bin:$PYTHONPATH
 export PYTHONPATH=$happy:$PYTHONPATH
 export PYTHONPATH=$aloha:$PYTHONPATH
+export PYTHONPATH=$sunshine:$PYTHONPATH
 export PYTHONPATH=~/bin/CatMAP/catmap:$PYTHONPATH
+export PYTHONPATH=$eevee:$PYTHONPATH
 export PATH=$aloha:$PATH
 export PATH=~/bin:$PATH
 export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
+export PATH=$sunshine:$PATH
 export ASE_VASP_VDW=~/bin
 
 # --- ASE --- #
@@ -246,7 +251,7 @@ alias mkfol='bash $happy/sdf/mk_active_sites_dirs.sh'
 alias qs='bash $happy/qstat.sh'
 alias plotcov='python $happy/plots/catmap_plot_coverage.py'
 alias plotsel='python $happy/plots/catmap_plot_selectivity.py'
-alias plotmkm='python $happy/mkm/mkm_plotter.py'
+alias plotmkm='python $happy/mkm/old/mkm_plotter.py'
 alias runmkm='python $happy/mkm/run_mkm.py'
 alias cpmkm='python $happy/mkm/copy_input.py'
 alias fed='python $happy/mkm/FED_plotter.py'
