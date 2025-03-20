@@ -53,7 +53,7 @@ alias rm='~/bin/rm_mv'
 alias sh='/bin/bash'
 alias py='python'
 source ~/bin/open_finder_tab.sh
-alias op='oft .'
+alias open='oft .'
 
 # --- Git --- #
 gitupdate(){
