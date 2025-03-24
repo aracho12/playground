@@ -24,3 +24,5 @@ git add *
 git commit -m "."
 git push origin master
 cd $dir_now'
+
+export PYTHONPATH=/Users/aracho/bin/co2r-mkm-model:$PYTHONPATH
