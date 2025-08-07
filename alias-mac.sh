@@ -26,3 +26,4 @@ git push origin master
 cd $dir_now'
 
 export PYTHONPATH=/Users/aracho/bin/co2r-mkm-model:$PYTHONPATH
+alias sdf='ssh -X -Y aracho@s3dflogin.slac.stanford.edu'
