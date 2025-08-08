@@ -13,7 +13,11 @@ atoms = read(sys.argv[1])
 slab = surface(atoms, (1,1,1), 4) #(lattice, indices, layers, vacuum=None, tol=1e-10, periodic=False)
 slab.center(vacuum=10.0, axis=2)
 
-write('slab.traj',slab)
+# supercell
+sc = slab * (3,3,1)
+
+write('slab.traj',sc)
+
 #slab = fcc111('Pt', size=(3,3,4), vacuum=8, orthogonal=False, periodic=True)
 #write('slab.json',slab)
 
