@@ -91,6 +91,11 @@ incar(){
     fi
 }
 
+ag(){
+	ase gui $1 &
+}
+
+
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
