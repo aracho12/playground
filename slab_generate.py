@@ -10,7 +10,7 @@ if len(sys.argv) < 2:
 
 atoms = read(sys.argv[1])
 
-slab = surface(atoms, miller_indices=(1,1,1), layers=4)
+slab = surface(atoms, (1,1,1), 4) #(lattice, indices, layers, vacuum=None, tol=1e-10, periodic=False)
 slab.center(vacuum=10.0, axis=2)
 
 write('slab.traj',slab)
