@@ -52,7 +52,7 @@ alias dush='du -h | sort -rh | head -20'
 alias rm='~/bin/rm_mv'
 alias sh='/bin/bash'
 alias py='python'
-source ~/bin/open_finder_tab.sh
+#source ~/bin/open_finder_tab.sh
 alias oft='oft .'
 
 # --- Git --- #
@@ -271,6 +271,6 @@ alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- TRASH --- #
 
-~/bin/empty_basket 1
+~/bin/for_a_happy_life/setup/empty_basket 1
 
 # remove files which have been more than certain days in (home)/_TRASH
