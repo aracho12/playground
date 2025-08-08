@@ -15,7 +15,8 @@ alias jl='jupyter-lab --no-browser'
 export PATH=/Users/aracho/.local/bin:$PATH
 export PYTHONPATH=/Users/aracho/.local/bin:$PYTHONPATH
 export PYTHONPATH=/Users/aracho/bin/CATMAP_source/catmap:$PYTHONPATH
-export crada=/Users/aracho/Dropbox/0-Research/CRADA
+export PYTHONPATH=/Users/aracho/bin/ase-notebook:$PYTHONPATH
+export crada=/Users/aracho/Google\ Drive/My\ Drive/CRADA-Projects
 alias happy='dir_now=$PWD
 cd ~/bin/for_a_happy_life
 git pull origin master
@@ -23,3 +24,5 @@ git add *
 git commit -m "."
 git push origin master
 cd $dir_now'
+
+export PYTHONPATH=/Users/aracho/bin/co2r-mkm-model:$PYTHONPATH

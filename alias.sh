@@ -53,6 +53,8 @@ alias dush='du -h | sort -rh | head -20'
 alias rm='~/bin/rm_mv'
 alias sh='/bin/bash'
 alias py='python'
+#source ~/bin/open_finder_tab.sh
+alias oft='oft .'
 
 # --- Git --- #
 gitupdate(){
@@ -90,6 +92,11 @@ incar(){
     fi
 }
 
+ag(){
+	ase gui $1 &
+}
+
+
 alias orange='dir_now=$PWD
 cd ~/bin/orange
 git pull
@@ -124,17 +131,22 @@ export happy=~/bin/for_a_happy_life
 export aloha=~/bin/aloha
 export orange=~/bin/orange
 export play=~/bin/playground
+export sunshine=~/bin/sunshine
+export eevee=~/bin/eevee/src
 
 
 # --- PATH --- #
 export PYTHONPATH=~/bin:$PYTHONPATH
 export PYTHONPATH=$happy:$PYTHONPATH
 export PYTHONPATH=$aloha:$PYTHONPATH
+export PYTHONPATH=$sunshine:$PYTHONPATH
 export PYTHONPATH=~/bin/CatMAP/catmap:$PYTHONPATH
+export PYTHONPATH=$eevee:$PYTHONPATH
 export PATH=$aloha:$PATH
 export PATH=~/bin:$PATH
 export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
+export PATH=$sunshine:$PATH
 export ASE_VASP_VDW=~/bin
 
 # --- ASE --- #
@@ -245,7 +257,13 @@ alias iterangle='python $happy/plots/plot_iter_angle.py'
 alias rerun='bash $happy/execute_previous_command.sh'
 alias mkfol='bash $happy/sdf/mk_active_sites_dirs.sh'
 alias qs='bash $happy/qstat.sh'
-
+alias plotcov='python $happy/plots/catmap_plot_coverage.py'
+alias plotsel='python $happy/plots/catmap_plot_selectivity.py'
+alias plotmkm='python $happy/mkm/old/mkm_plotter.py'
+alias runmkm='python $happy/mkm/run_mkm.py'
+alias cpmkm='python $happy/mkm/copy_input.py'
+alias fed='python $happy/mkm/FED_plotter.py'
+alias optsv='python $happy/mkm/temperature_gui.py'
 # --- PtORR --- #
 alias ptwater='python $happy/pt-water.py'
 alias getpdf='python $happy/fluctuation.py'
@@ -261,7 +279,7 @@ alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- TRASH --- #
 
-~/bin/empty_basket 1
+~/bin/for_a_happy_life/setup/empty_basket 1
 
 
 
