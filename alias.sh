@@ -107,9 +107,9 @@ cd $dir_now'
 alias play='dir_now=$PWD
 cd ~/bin/playground
 git pull
-git add *
-git commit -m "."
-git push
+#git add *
+#git commit -m "."
+#git push
 cd $dir_now'
 alias aloha='dir_now=$PWD
 cd ~/bin/aloha
@@ -174,7 +174,7 @@ alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
 alias dos='cp ~/bin/sumoDOS* .; python ./sumoDOS.py'
 alias send.sh='bash $happy/send.sh'
-#alias ag='bash $happy/ag.sh'
+alias ag='bash $happy/ag.sh'
 alias vialias='vi $play/alias.sh'
 alias cgrun='bash $happy/cgrun.sh'
 alias mvc='mv CONTCAR POSCAR ; ls'
