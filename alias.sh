@@ -50,7 +50,7 @@ alias cls='clear;ls'
 alias grep='grep --color=always'
 alias la='ls -la'
 alias dush='du -h | sort -rh | head -20'
-alias rm='~/bin/rm_mv'
+alias rm='$happy/rm_mv'
 alias sh='/bin/bash'
 alias py='python'
 #source ~/bin/open_finder_tab.sh
