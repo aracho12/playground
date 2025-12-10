@@ -29,3 +29,4 @@ export PYTHONPATH=/Users/aracho/bin/co2r-mkm-model:$PYTHONPATH
 alias sdf='ssh -X -Y aracho@s3dflogin.slac.stanford.edu'
 export s3df='aracho@s3dflogin.slac.stanford.edu'
 export scpsdf='scp -r aracho@s3dflogin.slac.stanford.edu:'
+alias tars='ssh -X -Y aracho@tars.kaist.ac.kr'
