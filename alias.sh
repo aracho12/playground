@@ -278,6 +278,7 @@ alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- VASP --- #
 alias pot='bash $play/vasp/potcar.sh'
+alias modrun='bash $play/vasp/modify_runfile.sh'
 # --- TARS --- #
 alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
 # --- TRASH --- #
