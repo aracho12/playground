@@ -139,6 +139,7 @@ export PYTHONPATH=$sunshine:$PYTHONPATH
 export PYTHONPATH=~/bin/CatMAP:$PYTHONPATH
 export PYTHONPATH=~/bin/CatMAP/catmap:$PYTHONPATH
 export PYTHONPATH=$eevee:$PYTHONPATH
+export PYTHONPATH=~/bin/cathub-plotter:$PYTHONPATH
 export PATH=$aloha:$PATH
 export PATH=~/bin:$PATH
 export PATH=$happy:$PATH
@@ -269,9 +270,15 @@ alias showlayer='python $happy/layer_grouping.py -i'
 alias iter='python $happy/select_iter.py -i'
 alias plotsp='python $happy/plot_morse.py'
 alias morse='python $happy/morse_potential.py'
+#alias sync='scp -r aracho@s3dflogin.slac.stanford.edu:~/sync_sdf /Users/aracho/'
+alias sync='bash $happy/util/sync.sh'
+alias backup='zsh $happy/util/backup.sh'
+alias scpsdf='bash $happy/util/transfer_to_sdf.sh'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
+# --- TARS --- #
+alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
 # --- TRASH --- #
 
 ~/bin/for_a_happy_life/setup/empty_basket 1
