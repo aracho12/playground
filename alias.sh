@@ -169,7 +169,6 @@ alias PBE='grep PBE POTCAR'
 alias sub='bash $happy/sub_only_one_job.sh'
 alias fsub='bash $happy/force_sub.sh'
 alias mystat='bash $happy/mystat.sh'
-alias pot='python $happy/POTCAR.py'
 alias con2cif='$VTST_PATH/pos2cif.pl CONTCAR && ls'
 alias pos2cif='$VTST_PATH/pos2cif.pl POSCAR && ls'
 alias dos='cp ~/bin/sumoDOS* .; python ./sumoDOS.py'
@@ -277,6 +276,8 @@ alias scpsdf='bash $happy/util/transfer_to_sdf.sh'
 # --- INCAR --- #
 alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
+# --- VASP --- #
+alias pot='python $play/vasp/potcar.sh'
 # --- TARS --- #
 alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
 # --- TRASH --- #
