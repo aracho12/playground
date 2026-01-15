@@ -277,7 +277,7 @@ alias scpsdf='bash $happy/util/transfer_to_sdf.sh'
 alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- VASP --- #
-alias pot='python $play/vasp/potcar.sh'
+alias pot='bash $play/vasp/potcar.sh'
 # --- TARS --- #
 alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
 # --- TRASH --- #
