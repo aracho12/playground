@@ -1,6 +1,16 @@
 # --- Color --- #
-
-LS_COLORS=$LS_COLORS:'*.png=1;35:*.pdf=1;35:*.log=1;32:*DONE=01;4;31:di=1;36:*.py=1;38;5;123:*.cif=01;35:*.txt=01;33:*.tsv=01;33:*.dat=01;35:*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:*.sh=01;35' ; export LS_COLORS
+# 01;35: magenta, 01;33: yellow, 01;32: green 01;4;31: Bold(1) Underlined(4) Red(31) # 1;36: Cyan(36) # 1;38;5;123: Green(123) # 1;4;38;5;214: Bold(1) Underlined(4) BriteOrange(214)
+LS_COLORS="$LS_COLORS:"\
+'*DONE=01;4;31:'\
+'*.log=01;32:'\
+'*.txt=01;33:*.tsv=01;33:*.csv=01;33:*.dat=01;33:'\
+'*.out=01;34:*.json=01;35:*.traj=01;35:'\
+'*.png=1;35:*.pdf=1;35:*.cif=01;35:*.xyz=01;35:'\
+'di=1;36:'\
+'*.py=1;38;5;123:*.sh=01;35:'\
+'*NCAR=1;4;38;5;214:*POINTS=1;4;38;5;214:*POSCAR=1;4;38;5;214:*OTCAR=1;4;38;5;214:*WAVECAR=00;38;5;214:*CHGCAR=00;38;5;214:*CHG=00;38;5;130:'\
+'*DOSCAR=00;38;5;214:*PROCAR=00;38;5;130:*CONTCAR=1;38;5;214:*OUTCAR=1;38;5;214:*IBZKPT=00;38;5;130:*EIGENVAL=00;38;5;130:*REPORT=00;38;5;130:'\
+'*XDATCAR=00;38;5;130:*PCDAT=00;38;5;130:*OSZICAR=1;38;5;214:*.out=00;38;5;130:*restart.json=1;4;38;5;214:' ; export LS_COLORS
 
 export re='\e[0m' # regular
 export bd='\e[1m' # color + bold
@@ -107,9 +117,9 @@ cd $dir_now'
 alias play='dir_now=$PWD
 cd ~/bin/playground
 git pull
-#git add *
-#git commit -m "."
-#git push
+git add *
+git commit -m "."
+git push
 cd $dir_now'
 alias aloha='dir_now=$PWD
 cd ~/bin/aloha
