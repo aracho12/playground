@@ -17,6 +17,7 @@ EXCLUDE_PATTERNS=(
     ".DS_Store"
     "_TRASH"
     "miniconda3"
+    "transfer"
     "00_START"
     "AECCAR*"
 )
