@@ -5,7 +5,7 @@
 # Default runfile: run.slurm
 
 # Default runfile name
-DEFAULT_RUNFILE="run.slurm"
+DEFAULT_RUNFILE="run_slurm.sh"
 
 # Check arguments
 if [ "$#" -eq 0 ] || [ "$#" -gt 2 ]; then
