@@ -15,6 +15,9 @@ EXCLUDE_PATTERNS=(
     "__pycache__"
     "node_modules"
     ".DS_Store"
+    "_TRASH"
+    "miniconda3"
+    "00_START"
     "AECCAR*"
 )
 
