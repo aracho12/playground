@@ -32,7 +32,7 @@ if ! grep -q "^#SBATCH -J" "$RUNFILE"; then
 fi
 
 # Create backup of original file
-BACKUP="${RUNFILE}.bak"
+BACKUP=".${RUNFILE}.bak"
 cp "$RUNFILE" "$BACKUP"
 echo "Backup created: $BACKUP"
 
