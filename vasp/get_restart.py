@@ -137,6 +137,14 @@ def get_bader_charges(traj='OUTCAR'):
     return net_charges
 
 if __name__ == "__main__":
+
+    # if restart.json exists, copy it to initial.json
+    if os.path.exists('restart.json'):
+        subprocess.run(['cp', 'restart.json', 'initial.json'])
+        logger.info("copy restart.json to initial.json")
+    else:
+        logger.info("restart.json does not exist")
+
     # Allow passing trajectory file as argument
     traj_file = 'OUTCAR'
     if len(sys.argv) > 1:
@@ -178,6 +186,9 @@ if __name__ == "__main__":
         logger.info("set initial charges")
         write('atoms_bader_charge.json', atoms)
         logger.info("write atoms_bader_charge.json")
+        # remove AECCAR0, AECCAR2, CHG, CHGCAR_sum
+        subprocess.run(['rm', 'AECCAR*', 'CHG*'])
+        logger.info("remove AECCAR* and CHG*")
     else:
         print("Error: No charges found. Please run bader analysis first.")
     write('restart.json', atoms)
