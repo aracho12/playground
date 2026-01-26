@@ -222,7 +222,7 @@ alias fcif='bash $happy/aseconvert.sh'
 
 # --- Research --- #
 alias wf='python $happy/wf_cal.py'
-alias getrst='python $happy/get_restart.py'
+alias getrst='python $play/vasp/get_restart.py'
 alias getrst.sh='bash $happy/restart.sh'
 alias getchg='python $happy/getchg.py'
 alias gm='bash $happy/getmetal.sh'
