@@ -26,7 +26,7 @@ def get_bader_charges(traj='OUTCAR'):
     """
     
     # Check if input files exist
-    if not os.path.exists("ACF.dat") and not os.path.exists(traj):
+    if not os.path.exists("ACF.dat"):
         run_bader()
     else:
         print("Error: ACF.dat or structure file not found. Please run bader analysis first.")
@@ -122,6 +122,9 @@ if __name__ == "__main__":
         traj_file = sys.argv[1]
         
     charges = get_bader_charges(traj_file)
-    atoms = read(traj_file)
-    atoms.set_initial_charges(charges)
-    write('atoms_bader_charge.json', atoms)
+    if charges:
+        atoms = read(traj_file)
+        atoms.set_initial_charges(charges)
+        write('atoms_bader_charge.json', atoms)
+    else:
+        print("Error: No charges found. Please run bader analysis first.")
