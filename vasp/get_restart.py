@@ -4,7 +4,26 @@ import sys
 import numpy as np
 from ase.io import read, write
 import subprocess
+import logging.config
+# ================== Logger ================================
+def Logger(file_name):
+    formatter = logging.Formatter(fmt='%(asctime)s | %(message)s',
+                                  datefmt='%Y/%m/%d %H:%M:%S') # %I:%M:%S %p AM|PM format
+    logging.basicConfig(filename = '%s.log' %(file_name),format= '%(asctime)s | %(message)s',
+                                  datefmt='%Y/%m/%d %H:%M:%S', filemode = 'w', level = logging.INFO)
+    log_obj = logging.getLogger()
+    log_obj.setLevel(logging.DEBUG)
+    # log_obj = logging.getLogger().addHandler(logging.StreamHandler())
 
+    # console printer
+    screen_handler = logging.StreamHandler(stream=sys.stdout) #stream=sys.stdout is similar to normal print
+    screen_handler.setFormatter(formatter)
+    logging.getLogger().addHandler(screen_handler)
+
+    #log_obj.info("Logger object created successfully..")
+    return log_obj
+# =======================================================
+logger = Logger('post-process')
 home=os.path.expanduser('~')
 homebin=home+'/bin'
 vtstscript = 'vtstscripts-972'
@@ -122,11 +141,59 @@ if __name__ == "__main__":
     traj_file = 'OUTCAR'
     if len(sys.argv) > 1:
         traj_file = sys.argv[1]
+    write_charge_traj, write_magmom = False, False
+    atoms = read(traj_file)
+    energy = atoms.get_potential_energy()
+    forces = atoms.get_forces()
+    logger.info(f"get energy from {traj_file}")
+    logger.info(f"energy: {energy}")
         
     charges = get_bader_charges(traj_file)
     if charges:
+        logger.info("get bader charges")
+        write_charge_traj=True
         atoms = read(traj_file)
         atoms.set_initial_charges(charges)
         write('atoms_bader_charge.json', atoms)
+        logger.info("write atoms_bader_charge.json")
     else:
         print("Error: No charges found. Please run bader analysis first.")
+        write_charge_traj=False
+    try:
+        os.system("grep LORBIT INCAR | grep -v '#' ")
+        moms=atoms.get_magnetic_moments()
+        write_magmom=True
+    except:
+        write_magmom=False
+        if not write_magmom:
+            logger.error("can't get magnetic moments ; LORBIT or SPIN off")
+
+    if write_magmom:
+        moms=atoms.get_magnetic_moments()
+        atoms.set_initial_magnetic_moments(moms)
+        logger.info("set initial magnetic moments")
+    
+    if write_charge_traj:
+        atoms.set_initial_charges(charges)
+        logger.info("set initial charges")
+        write('atoms_bader_charge.json', atoms)
+        logger.info("write atoms_bader_charge.json")
+    else:
+        print("Error: No charges found. Please run bader analysis first.")
+    write('restart.json', atoms)
+    logger.info("write restart.json")
+    sum=0.0
+    largest=0.0
+    for a in range(len(atoms)):
+        force=np.sqrt(forces[a][0]**2+forces[a][1]**2+forces[a][2]**2)
+        sum+=force
+        if(force>largest):
+            largest=force
+    logger.info(f"largest force: {largest}")
+    logger.info(f"sum of forces: {sum}")
+    if (largest < 0.03):
+        logger.info('CONVERGED')
+        subprocess.check_output("echo $PWD ' : CONVERGED with ENERGY %.6f' and MAX FORCE of %.3f > DONE " %(energy, largest), shell=True)
+    else:
+        logger.info('NOT CONVERGED')
+        subprocess.check_output("echo $PWD ' : CONVERGED with ENERGY %.6f' and MAX FORCE of %.3f > NOT_DONE " %(energy, largest), shell=True)
