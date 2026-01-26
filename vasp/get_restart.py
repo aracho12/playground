@@ -48,10 +48,12 @@ def get_bader_charges(traj='OUTCAR'):
     
     # Check if input files exist
     if not os.path.exists("ACF.dat"):
-        run_bader()
-    else:
-        print("Error: ACF.dat or structure file not found. Please run bader analysis first.")
-        return []
+        # check if AECCAR0 and AECCAR2 exist
+        if os.path.exists('AECCAR0') and os.path.exists('AECCAR2'):
+            run_bader()
+        else:
+            print("Error: AECCAR0 and AECCAR2 do not exist.")
+            return []        
 
     # Parse ACF.dat to get Bader charges
     # ACF.dat format:
