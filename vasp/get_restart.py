@@ -5,8 +5,10 @@ import numpy as np
 from ase.io import read, write
 import subprocess
 
+home=os.path.expanduser('~')
+homebin=home+'/bin'
 vtstscript = 'vtstscripts-972'
-vtstscript_path = '~/bin/{}'.format(vtstscript)
+vtstscript_path = homebin+'/'+vtstscript
 
 def run_bader():
     subprocess.run(['{}/chgsum.pl'.format(vtstscript_path), 'AECCAR0', 'AECCAR2'])
