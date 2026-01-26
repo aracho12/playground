@@ -293,6 +293,7 @@ alias mvall='bash $play/vasp/mvall.sh'
 alias cpini='bash $play/vasp/cpini.sh'
 # --- TARS --- #
 alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
+alias pe='bash $play/tars/pe.sh'
 # --- TRASH --- #
 
 ~/bin/for_a_happy_life/setup/empty_basket 1
