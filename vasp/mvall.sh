@@ -4,7 +4,7 @@ mvall(){
     patterns1="AEC* *.dat *.py *.json *.traj"
     patterns2="CHG* OUT* CON* POS* *.sh *.log REPORT PCDAT"
     patterns3="out* err* IBZKPT* INCAR* KPOINTS* EIGENVAL* OSZICAR* WAVECAR* XDATCAR* vasprun.xml* DOSCAR*"
-    patterns4="NOT_DONE DONE *.out"
+    patterns4="NOT_DONE DONE *.out POTCAR"
 
     for patterns in "$patterns1" "$patterns2" "$patterns3" "$patterns4"; do
         files=()
