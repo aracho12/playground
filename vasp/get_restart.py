@@ -6,7 +6,7 @@ from ase.io import read, write
 import subprocess
 
 vtstscript = 'vtstscripts-972'
-vtstscript_path = '~/bin/{}/'.format(vtstscript)
+vtstscript_path = '~/bin/{}'.format(vtstscript)
 
 def run_bader():
     subprocess.run(['{}/chgsum.pl'.format(vtstscript_path), 'AECCAR0', 'AECCAR2'])
