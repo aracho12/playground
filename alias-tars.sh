@@ -1,0 +1,1 @@
+alias mystat='bash $play/tars/mystat.sh'
