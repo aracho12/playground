@@ -8,4 +8,12 @@ cpini() {
     done
 }
 
-cpini $1
+if [ -z "$1" ]; then
+    for f in run_slurm.sh ase_vasp.py; do
+        if [ -f "~/$f" ]; then
+            cp "~/$f" .
+        fi
+    done
+else
+    cpini $1
+fi

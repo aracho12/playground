@@ -20,6 +20,8 @@ EXCLUDE_PATTERNS=(
     "transfer"
     "00_START"
     "AECCAR*"
+    "WAVECAR"
+    "CHG*"
 )
 
 # Create local backup directory if it doesn't exist
