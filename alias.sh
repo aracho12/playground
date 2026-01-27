@@ -1,7 +1,7 @@
 # --- Color --- #
 # 01;35: magenta, 01;33: yellow, 01;32: green 01;4;31: Bold(1) Underlined(4) Red(31) # 1;36: Cyan(36) # 1;38;5;123: Green(123) # 1;4;38;5;214: Bold(1) Underlined(4) BriteOrange(214)
 LS_COLORS="$LS_COLORS:"\
-'*DONE=01;4;31:'\
+'*DONE=01;4;31:CANCELLED=01;4;31:'\
 '*.log=01;32:'\
 '*.txt=01;33:*.tsv=01;33:*.csv=01;33:*.dat=01;33:'\
 '*.out=01;34:*.json=01;35:*.traj=01;35:'\
