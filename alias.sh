@@ -47,8 +47,8 @@ elif [[ $SHELL == '/bin/zsh' ]] ; then
 	alias vzsh='vi ~/.zshrc'
 	alias sbash='source ~/.zshrc'
 	alias szsh='source ~/.zshrc'
-	alias ls='ls --color=auto'
-	alias l='ls --color=auto'
+	alias ls='gls --color=auto'
+	alias l='gls --color=auto'
 else
 	alias ls='ls'
 fi
