@@ -113,7 +113,7 @@ if [ $# -eq 2 ]; then
         fi
         
         echo ""
-        echo "Processing folder: $folder"
+        echo "$Y Processing folder: $folder $dW"
         cd "$folder" || {
             echo "Error: Cannot enter folder $folder"
             current_num=$((current_num + 1))
