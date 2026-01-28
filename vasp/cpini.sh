@@ -1,3 +1,9 @@
+#!/bin/bash
+
+# cpini.sh: Copy ase_vasp.py and run_slurm.sh from home when restart.json exists
+# Usage: cpini.sh [source_directory]
+# If no argument provided, copies from $HOME when restart.json exists in current directory
+
 cpini() {
     src="$1"
     # Check and copy each file if it exists in $1
@@ -8,14 +14,22 @@ cpini() {
     done
 }
 
-
 if [ -z "$1" ]; then
-    src="$HOME"
-    for f in run_slurm.sh ase_vasp.py; do
-        if [ -f "$src/$f" ]; then
-            cp "$src/$f" .
-        fi
-    done
+    # Check if restart.json exists in current directory
+    if [ -f "restart.json" ]; then
+        src="$HOME"
+        echo "restart.json found. Copying files from $HOME..."
+        for f in run_slurm.sh ase_vasp.py; do
+            if [ -f "$src/$f" ]; then
+                cp "$src/$f" .
+                echo "  Copied: $f"
+            else
+                echo "  Warning: $f not found in $HOME"
+            fi
+        done
+    else
+        echo "restart.json not found. Skipping file copy."
+    fi
 else
     cpini "$1"
 fi
