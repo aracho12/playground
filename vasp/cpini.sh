@@ -16,20 +16,15 @@ cpini() {
 
 if [ -z "$1" ]; then
     # Check if restart.json exists in current directory
-    if [ -f "restart.json" ]; then
-        src="$HOME"
-        echo "restart.json found. Copying files from $HOME..."
-        for f in run_slurm.sh ase_vasp.py; do
-            if [ -f "$src/$f" ]; then
-                cp "$src/$f" .
-                echo "  Copied: $f"
-            else
-                echo "  Warning: $f not found in $HOME"
-            fi
-        done
-    else
-        echo "restart.json not found. Skipping file copy."
-    fi
+    src="$HOME"
+    for f in run_slurm.sh ase_vasp.py; do
+        if [ -f "$src/$f" ]; then
+            cp "$src/$f" .
+            echo "  Copied: $f"
+        else
+            echo "  Warning: $f not found in \$HOME"
+        fi
+    done
 else
     cpini "$1"
 fi
