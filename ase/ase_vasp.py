@@ -20,11 +20,10 @@ if mode not in valid_modes:
 
 print(f'Running in {mode.upper()} mode')
 
-if argv[2] is not None:
-    molecule_name = argv[2]
+# argv[2] (molecule name) is optional, e.g. "python ase_vasp.py vib" has no 3rd arg
+molecule_name = argv[2] if len(argv) > 2 else None
+if molecule_name is not None:
     print(f'Building molecule: {molecule_name}')
-else:
-    molecule_name = None
 
 def build_molecule(molecule_name):
     atoms = molecule(molecule_name)
