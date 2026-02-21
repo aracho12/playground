@@ -33,3 +33,7 @@ alias tars='ssh -X -Y aracho@tars.kaist.ac.kr'
 alias totars='$happy/util/transfer_to_tars.sh'
 alias fromtars='$play/tars/transfer_from_tars.sh'
 alias baktars='$play/tars/backup_tars.sh'
+cptars() {
+    cp -v "$@" ~/bin/tars_transfer/
+}
+hash -d tars=/Users/aracho/Dropbox/BACKUP/tars

@@ -161,6 +161,7 @@ export ASE_VASP_VDW=~/bin
 alias convf='ase convert -f -n -1 OUTCAR final_with_calculator.json && ls'
 alias convr='ase convert -f -n -1 OUTCAR restart.json && ls'
 alias pickle='python3 -m ase.io.trajectory *.traj'
+alias con2vasp='ase convert CONTCAR CONTCAR.vasp'
 
 
 # --- Alias --- #
