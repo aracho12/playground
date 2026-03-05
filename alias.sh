@@ -139,7 +139,7 @@ export orange=~/bin/orange
 export play=~/bin/playground
 export sunshine=~/bin/sunshine
 export eevee=~/bin/eevee/src
-
+export bin=~/bin
 
 # --- PATH --- #
 export PYTHONPATH=~/bin:$PYTHONPATH
@@ -301,6 +301,7 @@ alias pe='bash $play/tars/pe.sh'
 
 ~/bin/for_a_happy_life/setup/empty_basket 1
 
-
+# --- CES --- #
+alias cesbuild="python $bin/CES2-automation/run_builder.py"
 
 # remove files which have been more than certain days in (home)/_TRASH
