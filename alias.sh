@@ -125,6 +125,10 @@ alias aloha='dir_now=$PWD
 cd ~/bin/aloha
 git pull
 cd $dir_now'
+alias ces2='dir_now=$PWD
+cd ~/bin/CES2-automation
+git pull
+cd $dir_now'
 alias pull='git pull'
 alias push='git push'
 alias getbader='chgsum.pl AECCAR0 AECCAR2
