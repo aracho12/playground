@@ -59,6 +59,7 @@ alias c='clear'
 alias cls='clear;ls'
 alias grep='grep --color=always'
 alias la='ls -la'
+alias lst='ls -lt'
 alias dush='du -h | sort -rh | head -20'
 alias rm='$happy/rm_mv'
 alias sh='/bin/bash'
@@ -308,5 +309,6 @@ alias pe='bash $play/tars/pe.sh'
 
 # --- CES --- #
 alias cesbuild="python $bin/CES2-automation/run_builder.py"
+alias lmp2traj="python $bin/CES2-automation/ces2_analysis/view_lammps.py"
 
 # remove files which have been more than certain days in (home)/_TRASH
