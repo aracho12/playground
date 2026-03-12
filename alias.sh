@@ -308,5 +308,6 @@ alias pe='bash $play/tars/pe.sh'
 
 # --- CES --- #
 alias cesbuild="python $bin/CES2-automation/run_builder.py"
+alias lmp2traj="python $bin/CES2-automation/ces2_analysis/view_lammps.py"
 
 # remove files which have been more than certain days in (home)/_TRASH
