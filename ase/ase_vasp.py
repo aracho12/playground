@@ -259,13 +259,16 @@ for k, v in over.items():
 calc = Vasp(**{k: v for k, v in params.items() if v is not None})
 atoms.calc = calc
 
-# For FISCS: write INCAR first, patch it, then run VASP.
+# For FISCS: monkey-patch write_input so the extra tags are appended
+# every time ASE writes INCAR (calc.calculate() calls write_input internally).
 if mode == "fiscs":
-    calc.write_input(atoms)   # writes INCAR/KPOINTS/POSCAR/POTCAR without running
-    patch_incar_for_fiscs(calc.directory)
-    calc.calculate(atoms)     # runs VASP with the patched INCAR
-else:
-    atoms.get_potential_energy()
+    _orig_write_input = calc.write_input
+    def _patched_write_input(atoms, **kwargs):
+        _orig_write_input(atoms, **kwargs)
+        patch_incar_for_fiscs(calc.directory)
+    calc.write_input = _patched_write_input
+
+atoms.get_potential_energy()
 from ase.io.trajectory import Trajectory
 traj2=Trajectory('final_with_calculator.traj', 'w') 
 traj2.write(atoms)
