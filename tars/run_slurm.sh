@@ -15,13 +15,18 @@ let NPROCS=${SLURM_JOB_NUM_NODES}*${SLURM_CPUS_ON_NODE}
 DO_PARALLEL="srun -n ${NPROCS}"
 
 cd ${SLURM_SUBMIT_DIR}
-#EXECUTABLE="/home/jthlol/program/vasp.5.4.1_tim_pol2/bin/vasp_std"
 #EXECUTABLE="/home/jjw876/vasp.6.3.1/bin/vasp_std"
 EXECUTABLE="/apps/programs/vasp/vasp.5.4.4/bin/vasp_std"
+EXECUTABLE_FISCS="/home/jthlol/program/vasp.5.4.1_tim_pol2/bin/vasp_std"  # vdW-SCS patch
 
 # ASE
 # vasp calcs mode: "slab", "vib", "sp", "charge", "dos", "wf", "gas", "fiscs"
 VASP_MODE=slab                  # sub.sh가 이 줄을 자동으로 변경합니다
+
+# FISCS 모드는 vdW-SCS 패치가 적용된 전용 바이너리 사용
+if [ "$VASP_MODE" = "fiscs" ]; then
+    EXECUTABLE="$EXECUTABLE_FISCS"
+fi
 export VASP_PP_PATH=/home/aracho/bin/potpaw_PBE.54 #POTCAR 폴더 위치
 export VASP_SCRIPT=./run_vasp.py
 echo "import os" > run_vasp.py
