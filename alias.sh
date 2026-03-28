@@ -305,7 +305,7 @@ alias mkrst='bash $play/vasp/mkrst.sh'
 alias vmd='/apps/programs/vmd/vmd-1.9.2/bin/vmd'
 alias pe='bash $play/tars/pe.sh'
 
-alias udinput='bash $play/update_inputs.sh'
+alias udinput='bash $play/vasp/update_inputs.sh'
 
 # --- TRASH --- #
 ~/bin/for_a_happy_life/setup/empty_basket 1
