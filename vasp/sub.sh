@@ -11,12 +11,15 @@
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 play="${play:-$HOME}"
 
+VALID_MODES="slab sp fiscs vib charge dos wf gas"
+
 # Function to process a single folder
 process_folder() {
     local folder_path="$1"
     local job_name="$2"
+    local vasp_mode="$3"
     local runfile='run_slurm.sh'
-    
+
     # Check if ase_vasp.py or run_slurm.sh is missing, then run cpini.sh
     if [ ! -f "ase_vasp.py" ] || [ ! -f "$runfile" ]; then
         echo "Missing ase_vasp.py or $runfile. Running cpini.sh..."
@@ -28,13 +31,22 @@ process_folder() {
             echo "Warning: cpini.sh not found, skipping file copy..."
         fi
     fi
-    
+
     # Check if runfile exists
     if [ ! -f "$runfile" ]; then
         echo "Error: $runfile does not exist in $folder_path"
         return 1
     fi
-    
+
+    # Patch VASP_MODE in runfile
+    if grep -q "^VASP_MODE=" "$runfile"; then
+        sed -i.tmp "s/^VASP_MODE=.*/VASP_MODE=$vasp_mode/" "$runfile"
+        rm -f "${runfile}.tmp"
+        echo "  VASP_MODE set to: $vasp_mode"
+    else
+        echo "  Warning: VASP_MODE line not found in $runfile — mode not patched"
+    fi
+
     # Modify job name if the file contains #SBATCH -J line
     if grep -q "^#SBATCH -J" "$runfile"; then
         if [ -f "$script_dir/modify_runfile.sh" ]; then
@@ -47,25 +59,38 @@ process_folder() {
             rm -f "${runfile}.tmp"
         fi
     fi
-    
+
     # Submit the job
     echo "Submitting job: $job_name"
     sbatch "$runfile"
     return 0
 }
 
+# Helper: prompt for VASP mode with validation
+prompt_vasp_mode() {
+    local mode
+    read -p "Enter VASP mode [${VALID_MODES}] (default: slab): " mode
+    mode="${mode:-slab}"
+    if ! echo "$VALID_MODES" | grep -qw "$mode"; then
+        echo "Error: Unknown mode '$mode'. Valid modes: $VALID_MODES"
+        exit 1
+    fi
+    echo "$mode"
+}
+
 # If no arguments, process current folder
 if [ $# -eq 0 ]; then
     # Get job name
     read -p "Enter job name: " job_name
-    
     if [ -z "$job_name" ]; then
         echo "Error: Job name cannot be empty"
         exit 1
     fi
-    
+
+    vasp_mode=$(prompt_vasp_mode)
+
     echo "Processing current folder..."
-    process_folder "." "$job_name"
+    process_folder "." "$job_name" "$vasp_mode"
     exit $?
 fi
 
@@ -73,14 +98,15 @@ fi
 if [ $# -eq 2 ]; then
     start_folder="$1"
     end_folder="$2"
-    
+
     # Get base job name
     read -p "Enter base job name: " base_job_name
-    
     if [ -z "$base_job_name" ]; then
         echo "Error: Job name cannot be empty"
         exit 1
     fi
+
+    vasp_mode=$(prompt_vasp_mode)
     
     # Detect format (leading zeros or not) from input
     if [[ "$start_folder" =~ ^0[0-9]+$ ]]; then
@@ -122,8 +148,8 @@ if [ $# -eq 2 ]; then
         
         # Construct job name: base_name_folder
         job_name="${base_job_name}_${folder}"
-        
-        process_folder "$folder" "$job_name"
+
+        process_folder "$folder" "$job_name" "$vasp_mode"
         
         # Return to parent directory
         cd ..

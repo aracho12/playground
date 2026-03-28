@@ -204,9 +204,9 @@ def mode_overrides(mode_name: str) -> dict:
 
     if mode_name == "fiscs":
         # FI-SCS (Fractionally Ionic Self-Consistent Screening) singlepoint
-        # Reference INCAR: IVDW=263, LVDWSCS=.TRUE., LVDW_ONECELL=.F. .F. .T.
-        # LVDW_ONECELL: only z-direction periodic (for slab), suppresses lateral images
-        # ALGO=48 (VeryFast) is used in the reference; ASE passes 'VeryFast' → ALGO=48
+        # LVDWSCS / IVDW=263 / LVDW_ONECELL are patched directly into INCAR
+        # because older ASE versions may not have them in bool_keys/list_bool_keys.
+        # ALGO=48 (VeryFast) — ASE string: 'VeryFast'
         return {
             # singlepoint
             "ibrion": -1,
@@ -218,14 +218,9 @@ def mode_overrides(mode_name: str) -> dict:
             "sigma":   0.20,
             "symprec": 1e-8,
             "lorbit":  11,
-            "lreal":   False,   # exact projection required for SCS
-            "algo":    'VeryFast',  # ALGO=48 in VASP
-            # FISCS vdW tags
-            "lvdwscs":      True,   # enable SCS screening
-            "ivdw":         263,    # FI-SCS (fractionally ionic)
-            "lvdw_onecell": [False, False, True],  # periodic only along z (slab)
+            "lreal":   False,        # exact projection required for SCS
+            "algo":    'VeryFast',   # ALGO=48 in VASP
             # output
-            "lorbit":  11,
             "lcharg":  False,
             "laechg":  False,
             "lwave":   False,
@@ -234,6 +229,23 @@ def mode_overrides(mode_name: str) -> dict:
         }
 
     return {}
+
+
+# FISCS-specific tags that ASE may not recognize natively.
+# Written directly to INCAR after ASE's write_input() call.
+FISCS_INCAR_PATCH = """\
+IVDW         = 263     ! FI-SCS (fractionally ionic SCS)
+LVDWSCS      = .TRUE.
+LVDW_ONECELL = .FALSE. .FALSE. .TRUE.  ! periodic only along z (slab geometry)
+"""
+
+def patch_incar_for_fiscs(directory='.'):
+    """Append FISCS-specific tags that ASE cannot write natively."""
+    incar_path = os.path.join(directory, 'INCAR')
+    with open(incar_path, 'a') as f:
+        f.write('\n# --- FI-SCS patch ---\n')
+        f.write(FISCS_INCAR_PATCH)
+    print('FISCS tags appended to INCAR.')
 
 
 params = dict(common_params)
@@ -246,7 +258,14 @@ for k, v in over.items():
 
 calc = Vasp(**{k: v for k, v in params.items() if v is not None})
 atoms.calc = calc
-atoms.get_potential_energy()
+
+# For FISCS: write INCAR first, patch it, then run VASP.
+if mode == "fiscs":
+    calc.write_input(atoms)   # writes INCAR/KPOINTS/POSCAR/POTCAR without running
+    patch_incar_for_fiscs(calc.directory)
+    calc.calculate(atoms)     # runs VASP with the patched INCAR
+else:
+    atoms.get_potential_energy()
 from ase.io.trajectory import Trajectory
 traj2=Trajectory('final_with_calculator.traj', 'w') 
 traj2.write(atoms)
