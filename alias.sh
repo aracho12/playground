@@ -259,6 +259,7 @@ alias wrap='python $happy/wrap_cell.py -i'
 alias cprdf='cp $happy/rdf.py .'
 alias pov='python $happy/povshot.py -i'
 alias cppov='cp $happy/povshot.py .'
+alias cprun='cp ~/run_slurm.sh .'
 
 # --- QE --- #
 alias qsub='bash $happy/sub-qe.sh'

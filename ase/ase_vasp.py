@@ -14,7 +14,7 @@ from ase.build import molecule
 
 
 mode = argv[1] if len(argv) > 1 else 'slab'
-valid_modes = {"slab", "vib", "sp", "charge", "dos", "wf","gas"}
+valid_modes = {"slab", "vib", "sp", "charge", "dos", "wf", "gas", "fiscs"}
 if mode not in valid_modes:
     raise ValueError(f"Unknown mode='{mode}'. Use one of: {sorted(valid_modes)}")
 
@@ -110,7 +110,7 @@ common_params = {
 
       # output options
       'lwave': False,
-      'lcharg': False,
+      'lcharg': True,
       'laechg': True,
       'lvtot': False,
 
@@ -200,6 +200,37 @@ def mode_overrides(mode_name: str) -> dict:
             "idipol": 4,
             "ldipol": False,
             "laechg": False,
+        }
+
+    if mode_name == "fiscs":
+        # FI-SCS (Fractionally Ionic Self-Consistent Screening) singlepoint
+        # Reference INCAR: IVDW=263, LVDWSCS=.TRUE., LVDW_ONECELL=.F. .F. .T.
+        # LVDW_ONECELL: only z-direction periodic (for slab), suppresses lateral images
+        # ALGO=48 (VeryFast) is used in the reference; ASE passes 'VeryFast' → ALGO=48
+        return {
+            # singlepoint
+            "ibrion": -1,
+            "nsw":     0,
+            "ediff":   1e-5,
+            "ediffg":  None,
+            "potim":   None,
+            # electronic
+            "sigma":   0.20,
+            "symprec": 1e-8,
+            "lorbit":  11,
+            "lreal":   False,   # exact projection required for SCS
+            "algo":    'VeryFast',  # ALGO=48 in VASP
+            # FISCS vdW tags
+            "lvdwscs":      True,   # enable SCS screening
+            "ivdw":         263,    # FI-SCS (fractionally ionic)
+            "lvdw_onecell": [False, False, True],  # periodic only along z (slab)
+            # output
+            "lorbit":  11,
+            "lcharg":  False,
+            "laechg":  False,
+            "lwave":   False,
+            # performance (reference: npar=1, kpar=2 — adjust to your system)
+            "npar":    1,
         }
 
     return {}

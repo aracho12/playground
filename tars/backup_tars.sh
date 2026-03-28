@@ -22,6 +22,8 @@ EXCLUDE_PATTERNS=(
     "AECCAR*"
     "WAVECAR"
     "CHG*"
+    "*.cube"
+    "solute"
 )
 
 # Create local backup directory if it doesn't exist
