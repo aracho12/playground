@@ -225,7 +225,7 @@ def mode_overrides(mode_name: str) -> dict:
             "laechg":  False,
             "lwave":   False,
             # performance (reference: npar=1, kpar=2 — adjust to your system)
-            "npar":    1,
+            "npar":    4,
         }
 
     return {}
