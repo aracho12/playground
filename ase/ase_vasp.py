@@ -263,8 +263,8 @@ atoms.calc = calc
 # every time ASE writes INCAR (calc.calculate() calls write_input internally).
 if mode == "fiscs":
     _orig_write_input = calc.write_input
-    def _patched_write_input(atoms, **kwargs):
-        _orig_write_input(atoms, **kwargs)
+    def _patched_write_input(*args, **kwargs):
+        _orig_write_input(*args, **kwargs)
         patch_incar_for_fiscs(calc.directory)
     calc.write_input = _patched_write_input
 
