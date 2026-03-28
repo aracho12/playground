@@ -80,12 +80,9 @@ prompt_vasp_mode() {
 
 # If no arguments, process current folder
 if [ $# -eq 0 ]; then
-    # Get job name
-    read -p "Enter job name: " job_name
-    if [ -z "$job_name" ]; then
-        echo "Error: Job name cannot be empty"
-        exit 1
-    fi
+    default_job_name="$(basename "$PWD")"
+    read -p "Enter job name (default: $default_job_name): " job_name
+    job_name="${job_name:-$default_job_name}"
 
     vasp_mode=$(prompt_vasp_mode)
 
@@ -100,11 +97,9 @@ if [ $# -eq 2 ]; then
     end_folder="$2"
 
     # Get base job name
-    read -p "Enter base job name: " base_job_name
-    if [ -z "$base_job_name" ]; then
-        echo "Error: Job name cannot be empty"
-        exit 1
-    fi
+    default_job_name="$(basename "$PWD")"
+    read -p "Enter base job name (default: $default_job_name): " base_job_name
+    base_job_name="${base_job_name:-$default_job_name}"
 
     vasp_mode=$(prompt_vasp_mode)
     
