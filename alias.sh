@@ -313,6 +313,10 @@ alias udinput='bash $play/vasp/update_inputs.sh'
 # --- CES --- #
 alias cesbuild="python $bin/CES2-automation/run_builder.py"
 alias lmp2traj="python $bin/CES2-automation/ces2_analysis/view_lammps.py"
+<<<<<<< HEAD
 alias fiscs='bash ~/bin/CES2-automation/tools/extract_fiscs.sh'
+=======
+alias fiscs="bash ~/bin/CES2-automation/tools/extract_fiscs.sh"
+>>>>>>> 89226f49b480560875c9c630d5b060c71394c33b
 
 # remove files which have been more than certain days in (home)/_TRASH
