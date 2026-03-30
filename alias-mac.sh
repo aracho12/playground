@@ -37,3 +37,7 @@ cptars() {
     cp -v "$@" ~/bin/tars_transfer/
 }
 hash -d tars=/Users/aracho/Dropbox/BACKUP/tars
+
+alias nuri1='ssh -X -Y x3246a09@nurion.ksc.re.kr'
+alias nuri2='ssh -X -Y x3421a03@nurion.ksc.re.kr'
+alias nuri3='ssh -X -Y x3379a03@nurion.ksc.re.kr'
