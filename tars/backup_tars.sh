@@ -24,6 +24,7 @@ EXCLUDE_PATTERNS=(
     "CHG*"
     "*.cube"
     "solute"
+    "solute.temp"
 )
 
 # Create local backup directory if it doesn't exist
