@@ -262,7 +262,6 @@ alias cppov='cp $happy/povshot.py .'
 alias cprun='cp ~/run_slurm.sh .'
 
 # --- QE --- #
-alias qsub='bash $happy/sub-qe.sh'
 alias conf='bash $happy/conf.sh'
 
 # --- CRADA --- #
