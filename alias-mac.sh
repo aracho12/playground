@@ -33,10 +33,16 @@ alias tars='ssh -X -Y aracho@tars.kaist.ac.kr'
 alias totars='$happy/util/transfer_to_tars.sh'
 alias fromtars='$play/tars/transfer_from_tars.sh'
 alias baktars='$play/tars/backup_tars.sh'
+alias baknuri1='$play/tars/backup_nuri1.sh'
+alias baknuri2='$play/tars/backup_nuri2.sh'
+alias baknuri3='$play/tars/backup_nuri3.sh'
 cptars() {
     cp -v "$@" ~/bin/tars_transfer/
 }
 hash -d tars=/Users/aracho/Dropbox/BACKUP/tars
+hash -d nuri1=/Users/aracho/Dropbox/BACKUP/nurion_x3246a09
+hash -d nuri2=/Users/aracho/Dropbox/BACKUP/nurion_x3421a03
+hash -d nuri3=/Users/aracho/Dropbox/BACKUP/nurion_x3379a03
 
 alias nuri1='ssh -X -Y x3246a09@nurion.ksc.re.kr'
 alias nuri2='ssh -X -Y x3421a03@nurion.ksc.re.kr'
