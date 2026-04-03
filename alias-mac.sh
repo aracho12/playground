@@ -33,9 +33,9 @@ alias tars='ssh -X -Y aracho@tars.kaist.ac.kr'
 alias totars='$happy/util/transfer_to_tars.sh'
 alias fromtars='$play/tars/transfer_from_tars.sh'
 alias baktars='$play/tars/backup_tars.sh'
-alias baknuri1='$play/tars/backup_nuri1.sh'
-alias baknuri2='$play/tars/backup_nuri2.sh'
-alias baknuri3='$play/tars/backup_nuri3.sh'
+alias baknuri1='$play/backup_nuri1.sh'
+alias baknuri2='$play/backup_nuri2.sh'
+alias baknuri3='$play/backup_nuri3.sh'
 cptars() {
     cp -v "$@" ~/bin/tars_transfer/
 }
