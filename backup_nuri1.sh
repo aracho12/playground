@@ -5,7 +5,7 @@ REMOTE_USER="x3246a09"
 REMOTE_HOST="nurion.ksc.re.kr"
 REMOTE_DIR="/home01/x3246a09"
 REMOTE_SCRATCH_DIR="/scratch/x3246a09"
-LOCAL_BACKUP_DIR="/Users/aracho/Dropbox/BACKUP/nurion_x3246a09"
+LOCAL_BACKUP_DIR="/Users/aracho/Dropbox/BACKUP/nurion_x3246a09/home"
 LOCAL_SCRATCH_BACKUP_DIR="/Users/aracho/Dropbox/BACKUP/nurion_x3246a09/scratch"
 
 # Files and directories to exclude (add patterns as needed)
