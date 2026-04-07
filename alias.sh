@@ -296,7 +296,7 @@ alias cpmd='bash $happy/cpmd.sh'
 alias incar.sh='bash $happy/incar.sh'
 # --- VASP --- #
 alias pot='bash $play/vasp/potcar.sh'
-alias modrun='bash $play/vasp/modify_runfile.sh'
+alias modrun='$play/vasp/modify_runfile.sh'
 alias mvall='bash $play/vasp/mvall.sh'
 alias cpini='bash $play/vasp/cpini.sh'
 alias mkrst='bash $play/vasp/mkrst.sh'
