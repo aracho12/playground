@@ -1,0 +1,268 @@
+project:
+  workdir: "./"
+  seed: 1234
+
+species_db: "species_db"
+
+input:
+  vasp_file: "CONTCAR"
+
+cell:
+  require_orthogonal: true 
+  supercell: [3, 6, 1]
+
+electrolyte_box:
+  z_gap: 0.0
+  thickness: 60.0
+  z_margin_top: 2.0
+  vacuum_z:    20.0            # [Å] vacuum gap above water for boundary p p f
+  z_buffer_lo:  1.0            # [Å] buffer below slab (zlo = -z_buffer_lo)
+
+packmol:
+  #binary: "/Users/aracho/Dropbox/0-Research/0-My-Publications/27_Cataion_Effects_CES2/Files/.conda/bin/packmol"
+  tolerance: 2.0
+  maxit: 200
+
+charge_control:
+  q_target_total: 0.0           # total MD box charge (0 = neutral)
+  q_electrode_user_value: 0.0  # surface charge [e]: -1 = add 1 electron to MD slab
+                                # → counterion_pool adds 1 Li⁺ to compensate
+                                # → QM tot_charge = -1/(3*6*1) = -0.05556 (auto-calculated)
+  top_layer_tolerance: 1.8      # [Å] atoms within this distance of z_max receive charge
+                                # IrO2: 1.8 includes top Ir + bridging O (0.5 for simple metals)
+  # exclude_labels: ["O_ads", "H_ads"]  # uncomment if adsorbate should not be charged
+
+electrolyte_recipe:
+  # Water count defines approximate volume.
+  # species_id is OPTIONAL — auto-derived from ces2.water_model when omitted:
+  #   TIP4P  →  water_tip4p   (recommended)
+  #   TIP3P  →  water_tip3p
+  # Only set species_id explicitly if you need a custom water species.
+  water:
+    # species_id: "water_tip4p"   # optional: auto-derived from ces2.water_model
+    count: 2850
+    density_g_per_ml: 1.0
+
+  # Multiple salts allowed (stoich is species_id -> coefficient per formula unit)
+  #salts: 
+  #  - name: "LiOH"
+  #    concentration_M: 0.1
+  #    stoich: { "Li_plus": 1, "OH_minus": 1 }
+
+      #- name: "TMACl"   # organic cation salt
+      #concentration_M: 0.2
+      #stoich: { "TMA_plus": 1, "Cl_minus": 1 }
+
+  # Extra explicit species counts (e.g., add a bit of OH-)
+  extras: []
+  # - species_id: "OH_minus"
+  #   count: 5
+  # - species_id: "K_plus"
+  #   count: 5
+
+  # Counterion pool for enforcing total charge neutrality (used to fix electrode charge)
+  # Put at least one 1-valent cation and one 1-valent anion here.
+  #counterion_pool: ["Li_plus", "OH_minus"]
+
+          # counterion_pair_search: 2000
+
+  # Initial z-exclusion distances from slab surface
+  z_exclusion:
+    water_A: 2.5
+    ions_A: 4.0
+    neutral_A: 2.0
+
+  # Optional explicit packmol structure order (default: water then sorted rest)
+  # packmol_order: ["water_tip4p", "K_plus", "Cl_minus", "TMA_plus", "OH_minus"]
+
+output:
+  build_dir: "build"
+  export_dir: "export"
+
+# ---- Slab atom type_label overrides (optional) ----
+# Use when certain QM slab atoms need different bjdisp parameters than their
+# element-symbol default (e.g., adsorbed OH on IrO2 has different C6 than lattice O).
+#
+# Keys   : 1-based atom index in the PRIMITIVE CELL / POSCAR (= DFTD3 output index)
+# Values : type_label to assign — must exist in species_db/qm_params/<system>.yaml
+#
+# The builder automatically replicates each override across all supercell copies,
+# so only the primitive-cell indices need to be listed here.
+#
+# Example for IrO2 + adsorbed OH (atoms 99-102 in POSCAR, DFTD3 CN~1.0):
+slab:
+  type_label_overrides:
+    99:  "O_ads"
+    100: "O_ads"
+    101: "H_ads"
+    102: "H_ads"
+
+# ---- CES2 QM/MM LAMMPS input generation ----
+ces2:
+  # Water model: TIP4P (default, TIP4P-EW recommended for CES2) or TIP3P
+  water_model: TIP4P
+
+  # Pair-style cutoffs
+  lj_cutoff:        15.0   # Angstrom - real-space LJ cutoff
+  coulomb_cutoff:   15.0   # Angstrom - real-space Coulomb cutoff (should match lj_cutoff)
+  kspace_accuracy:  1.0e-4 # PPPM relative accuracy
+  kspace_slab:      3.0    # kspace_modify slab factor (2D slab correction)
+  tip4p_msite:      0.125  # TIP4P M-site distance (Angstrom) - 0.125 for TIP4P-EW
+
+  # Run prefix (used for dump and restart file names)
+  prefix: "ces2"
+
+  # Optional: pre-equilibrated dump file to load after read_data in base.in.lammps.
+  # Use the equilibrated.dump produced by md_relax to start QM/MM from a
+  # relaxed structure.  Timestep is read from md_relax.equil_steps.
+  # Comment out (or remove) to start from the raw data.file coordinates.
+  # initial_dump: "equilibrated.dump"
+
+  # BJ-dispersion global damping parameters (bjdisp pair style)
+  # These are the global shape parameters of the BJ damping function,
+  # NOT per-atom values (those are in species_db / qm_params).
+  bjdisp_a1: 1.40
+  bjdisp_a2: 0.50
+  bjdisp_s8: 2.10
+
+  # LJ parameters: type_label -> {epsilon [kcal/mol], sigma [Angstrom]}
+  # Built-in defaults are provided for TIP4P-EW water (Smith-Dang ions).
+  # Add entries here only if you need to override defaults or add new types.
+  # lj_params:
+  #   Ow:  { epsilon: 0.16275, sigma: 3.16435 }  # TIP4P-EW (already default)
+  #   K:   { epsilon: 0.20028, sigma: 3.025  }   # Smith-Dang (already default)
+  #   MyAtom: { epsilon: 0.200, sigma: 3.500 }    # custom
+
+  # Region z-bounds for slab surface layers (adjust to match your slab geometry)
+  # regions:
+  #   z_toplayer_lo:    -2.0   # Angstrom below slab top
+  #   z_toplayer_hi:     0.5   # Angstrom above slab top
+  #   z_centerlayer_lo:  0.0   # bottom of center slab layer
+  #   z_centerlayer_hi:  5.0   # top of center slab layer
+
+  # MD run settings for the CES2 QM/MM loop
+  md:
+    timestep_fs:   1.0     # fs
+    n_steps:       0       # 0 = single-point (QM/MM forces only); >0 for dynamics
+    thermo_every:  100     # print thermo every N steps
+    dump_every:    1000    # dump trajectory every N steps
+    temperature:   300.0   # K
+    t_damp_fs:     100.0   # NVT Nose-Hoover damping time, fs
+    restart_every: 500000  # write restart files every N steps
+    shake_tol:     1.0e-4  # SHAKE convergence tolerance
+    shake_iter:    20      # SHAKE max iterations
+    shake_maxiter: 500     # SHAKE absolute max iterations
+
+# ---- QE (Quantum ESPRESSO) settings for CES2 QM calculation ----
+qe:
+  prefix:      "solute"
+  outdir:      "./solute"
+  pseudo_dir:  "/home01/x3246a09/pseudo"    # directory with UPF pseudopotential files
+  ecutwfc:     50.0          # Ry - kinetic energy cutoff
+  ecutrho:     400.0         # Ry - charge density cutoff
+  occupations: "smearing"    # "smearing" or "fixed"
+  smearing:    "mv"          # Methfessel-Paxton (mv), cold (cold), gauss (gaussian)
+  degauss:     0.0147          # Ry - smearing width
+  k_points:    [2, 4, 1, 0, 0, 0]   # Monkhorst-Pack: n1 n2 n3 s1 s2 s3
+  emaxpos:     0.8           # dipole correction position (fraction of cell z)
+  edir:        3             # dipole/electric field direction (3 = z)
+  conv_thr:         1e-06   # SCF convergence threshold (Ry)
+  electron_maxstep: 400    # max SCF iterations
+  mixing_beta:      0.3    # charge density mixing (lower = more stable, slower)
+  diagonalization:  "cg"   # "cg" (stable) or "david" (faster)
+
+  # Pseudopotential set: built-in database to use when no per-element override is given.
+  # Currently supported: "sssp"  (SSSP PBE library, covers most elements)
+  pseudo_set: "sssp"
+
+  # Per-element overrides (optional): takes priority over pseudo_set.
+  # Uncomment and add entries to override specific elements or use a custom set.
+  # pseudopotentials:
+  #   Ir: "Ir_custom.UPF"   # use a non-SSSP file for Ir
+  #   O:  "O_custom.UPF"
+    # Add more elements as needed:
+    # H:  "H.pbe-kjpaw_psl.0.1.UPF"
+    # K:  "K.pbe-spn-kjpaw_psl.0.2.UPF"
+
+# ---- CES2 QM/MM run script generation ----
+ces2_script:
+  jobname:       "ces2_qmmm"    # used for SBATCH -J and prefix= in submit script
+  dft_ces2_path: "/home01/x3246a09/ces_share/dft-ces2-bash-test"
+  qe_binary:     "/home01/x3246a09/ces_share/qe_test/bin/pw.x"
+  pp_binary:     "/home01/x3246a09/ces_share/qe_test/bin/pp.x"
+  lmp_binary:    "${DFT_CES2_PATH}/MD/lammps/src-ind-cube/lmp_mpi"
+  chg2pot_binary:  "/home01/x3246a09/ces_sharechg2pot"
+  mdipc_binary:    "/home01/x3246a09/ces_share/mdipc"
+  chgplate_binary: "/home01/x3246a09/ces_share/make_rho_mino"
+  np:            128             # MPI tasks (= select × mpiprocs)
+  n_qmmm_steps:  6              # total QM/MM outer-loop steps
+  adsorbate:   "4"              # last 4 atoms in POSCAR are adsorbate (2 O_ads + 2 H_ads)
+                                # MDIPC excludes these from point charge correction
+
+  # ---- QE parallelization flags (pw.x command-line options) ----
+  # npool : k-point pools       — must divide n_kpoints (2×4×1=8 → use 8)
+  # ntg   : FFT task groups     — divisor of (np/npool); 2~4 recommended
+  # ndiag : ScaLAPACK procs     — must be a perfect square (1,4,9,16,25,...)
+  # Remove or comment out any flag to omit it from the mpirun command.
+  npool: 4
+  ntg:   2
+  ndiag: 9
+
+  # ---- Scheduler: use either 'slurm' or 'pbs' (not both) ----
+  # PBS Pro (Nurion / KISTI-style) — uncomment to use
+  pbs:
+    job_name:   "ces2_qmmm"
+    select:     2              # number of nodes
+    ncpus:      64             # CPUs per node
+    mpiprocs:   64             # MPI ranks per node (usually == ncpus)
+    ompthreads: 1
+    walltime:   "48:0:0"
+    queue:      "normal"
+    account:    "lammps"       # -A project code
+    email:      "aracho1211@gmail.com"   # -M notification address (optional)
+    export_env: true           # emit #PBS -V (export environment)
+    module_lines: |
+      module purge
+      module load intel/18.0.3 impi/18.0.3
+
+  # SLURM (tars / local cluster) — uncomment to use instead of pbs:
+  # slurm:
+  #   account:    "members"
+  #   partition:  "skylake_24c,broadwell_24c,haswell_24c_ib_sm61,haswell_24c"
+  #   nodes:      1
+  #   no_requeue: true
+  #   time:       "00:00:00"
+  #   comment:    "qmmm"
+
+md_relax:
+  enabled: true
+  # FF params are inlined automatically (no ff/ directory needed).
+  # Lighter than base.in.lammps: no bjdisp, no gridforce, shorter cutoff.
+  lj_cutoff:   10.0            # LJ cutoff [Å] for relax  (base uses 12 Å)
+  data_file: "data.file"
+
+  # Stage 0: Soft pushoff — relieve extreme packmol overlaps
+  soft_cutoff:   2.0           # [Å] pair_style soft cutoff
+  soft_ramp_max: 50.0          # [kcal/mol] ramp A from 0 → this
+  soft_steps:    2000          # steps for nve/limit pushoff
+  nve_limit:     0.1           # [Å/step] max atom displacement
+
+  # Stage 1: CG minimization — remove packmol bad contacts
+  min_etol:    1.0e-4          # energy tolerance  (kcal/mol)
+  min_ftol:    1.0e-3          # force tolerance   (kcal/mol/Å)
+  min_maxiter: 1000
+  min_maxeval: 5000
+
+  # Stage 2: Gradual heating  t_start → t_target
+  t_start:     10.0            # K  (start cold → avoid explosion from dense packing)
+  t_target:   300.0            # K
+  tdamp_fs:   100.0            # fs  (Nosé-Hoover τ)
+  heat_steps:  10000           # 10 ps  at timestep_fs=1.0
+
+  # Stage 3: NVT equilibration at t_target
+  equil_steps: 30000           # 30 ps  at timestep_fs=1.0
+
+  timestep_fs: 1.0             # fs
+  dump_every:  2000
+  write_equilibrated: "equilibrated.data"
+
