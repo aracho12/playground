@@ -194,7 +194,7 @@ ces2_script:
   chg2pot_binary:  "/home01/x3246a09/ces_sharechg2pot"
   mdipc_binary:    "/home01/x3246a09/ces_share/mdipc"
   chgplate_binary: "/home01/x3246a09/ces_share/make_rho_mino"
-  np:            128             # MPI tasks (= select × mpiprocs)
+  np:            256             # MPI tasks (= select × mpiprocs)
   n_qmmm_steps:  6              # total QM/MM outer-loop steps
   adsorbate:   "4"              # last 4 atoms in POSCAR are adsorbate (2 O_ads + 2 H_ads)
                                 # MDIPC excludes these from point charge correction
@@ -203,16 +203,17 @@ ces2_script:
   # npool : k-point pools       — must divide n_kpoints (2×4×1=8 → use 8)
   # ntg   : FFT task groups     — divisor of (np/npool); 2~4 recommended
   # ndiag : ScaLAPACK procs     — must be a perfect square (1,4,9,16,25,...)
+  #         4 nodes: np/npool = 256/4 = 64 procs/pool → sqrt(64) = 8 → ndiag 8
   # Remove or comment out any flag to omit it from the mpirun command.
   npool: 4
   ntg:   2
-  ndiag: 9
+  ndiag: 8
 
   # ---- Scheduler: use either 'slurm' or 'pbs' (not both) ----
   # PBS Pro (Nurion / KISTI-style) — uncomment to use
   pbs:
     job_name:   "ces2_qmmm"
-    select:     2              # number of nodes
+    select:     4              # number of nodes
     ncpus:      64             # CPUs per node
     mpiprocs:   64             # MPI ranks per node (usually == ncpus)
     ompthreads: 1
