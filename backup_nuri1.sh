@@ -65,28 +65,28 @@ for pattern in "${EXCLUDE_PATTERNS[@]}"; do
 done
 
 # Run rsync backup
-echo "Starting backup from tars to Dropbox..."
-echo "Source: $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
-echo "Destination: $LOCAL_BACKUP_DIR"
-echo ""
+# echo "Starting backup from tars to Dropbox..."
+# echo "Source: $REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR"
+# echo "Destination: $LOCAL_BACKUP_DIR"
+# echo ""
 
-rsync -avzP \
-    --delete \
-    -e "ssh -o ControlPath=$SOCKET_PATH" \
-    $EXCLUDE_OPTS \
-    "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/" \
-    "$LOCAL_BACKUP_DIR/"
+# rsync -avzP \
+#     --delete \
+#     -e "ssh -o ControlPath=$SOCKET_PATH" \
+#     $EXCLUDE_OPTS \
+#     "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR/" \
+#     "$LOCAL_BACKUP_DIR/"
 
-# Check if home backup was successful
-if [ $? -eq 0 ]; then
-    echo ""
-    echo "Home backup completed successfully!"
-    echo "Backup location: $LOCAL_BACKUP_DIR"
-else
-    echo ""
-    echo "Home backup failed with errors."
-    exit 1
-fi
+# # Check if home backup was successful
+# if [ $? -eq 0 ]; then
+#     echo ""
+#     echo "Home backup completed successfully!"
+#     echo "Backup location: $LOCAL_BACKUP_DIR"
+# else
+#     echo ""
+#     echo "Home backup failed with errors."
+#     exit 1
+# fi
 
 # Run rsync backup for scratch
 echo ""
