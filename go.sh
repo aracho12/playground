@@ -9,10 +9,9 @@ echo "JOBID: $1"
 if [ "$FIRST_CHAR" = "x" ]; then
     # PBS scheduler (username starts with 'x')
     workdir=$(qstat -f "$1" 2>/dev/null \
-        | tr -d '\n' \
+        | sed ':a;N;$!ba;s/\n[[:space:]]\+//g' \
         | grep -o 'PBS_O_WORKDIR=[^,]*' \
-        | cut -d'=' -f2 \
-        | xargs)
+        | cut -d'=' -f2)
 
     if [ -z "$workdir" ]; then
         echo "JobID $1 not found"
