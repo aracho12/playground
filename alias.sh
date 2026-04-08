@@ -263,6 +263,7 @@ alias cprun='cp ~/run_slurm.sh .'
 
 # --- QE --- #
 alias conf='bash $happy/conf.sh'
+alias cqe='$play/check_qe_scf.sh'
 
 # --- CRADA --- #
 alias plotf='python $happy/plots/print_and_plot_field.py'
