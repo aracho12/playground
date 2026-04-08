@@ -9,10 +9,10 @@ echo "JOBID: $1"
 if [ "$FIRST_CHAR" = "x" ]; then
     # PBS scheduler (username starts with 'x')
     workdir=$(qstat -f "$1" 2>/dev/null \
-        | perl -pe 's/\e\[[0-9;]*[a-zA-Z]//g' \
         | sed ':a;N;$!ba;s/\n[[:space:]]\+//g' \
         | grep -o 'PBS_O_WORKDIR=[^,]*' \
         | cut -d'=' -f2 \
+        | sed $'s/\x1b.*$//' \
         | tr -d '\r' \
         | sed 's/[[:space:]]*$//')
 
