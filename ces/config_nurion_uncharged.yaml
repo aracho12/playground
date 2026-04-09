@@ -116,7 +116,7 @@ ces2:
   # Use the equilibrated.dump produced by md_relax to start QM/MM from a
   # relaxed structure.  Timestep is read from md_relax.equil_steps.
   # Comment out (or remove) to start from the raw data.file coordinates.
-  # initial_dump: "equilibrated.dump"
+  initial_dump: "equilibrated.dump"
 
   # BJ-dispersion global damping parameters (bjdisp pair style)
   # These are the global shape parameters of the BJ damping function,
