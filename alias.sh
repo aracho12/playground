@@ -177,7 +177,7 @@ alias cgrun='$happy/cgrun.sh'
 alias qdel='$play/utils/qdel.sh'
 alias se='bash $happy/se.sh'
 alias to='sec2hhmmdd.sh'
-alias go='. $happy/go.sh'
+alias go='. $play/go.sh'
 alias showatoms='python $happy/showatoms.py'
 alias mvc='mv CONTCAR POSCAR ; ls'
 alias fix='python $happy/fixslab.py'
@@ -263,6 +263,7 @@ alias cprun='cp ~/run_slurm.sh .'
 
 # --- QE --- #
 alias conf='bash $happy/conf.sh'
+alias cqe='$play/check_qe_scf.sh'
 
 # --- CRADA --- #
 alias plotf='python $happy/plots/print_and_plot_field.py'
