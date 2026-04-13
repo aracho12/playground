@@ -194,7 +194,7 @@ ces2_script:
   chg2pot_binary:  "/home01/x3246a09/ces_sharechg2pot"
   mdipc_binary:    "/home01/x3246a09/ces_share/mdipc"
   chgplate_binary: "/home01/x3246a09/ces_share/make_rho_mino"
-  np:            128             # MPI tasks (= select × mpiprocs)
+  np:            256             # MPI tasks (= select × mpiprocs)
   n_qmmm_steps:  6              # total QM/MM outer-loop steps
   adsorbate:   "4"              # last 4 atoms in POSCAR are adsorbate (2 O_ads + 2 H_ads)
                                 # MDIPC excludes these from point charge correction
@@ -212,9 +212,9 @@ ces2_script:
   # PBS Pro (Nurion / KISTI-style) — uncomment to use
   pbs:
     job_name:   "ces2_qmmm"
-    select:     2              # number of nodes
-    ncpus:      64             # CPUs per node
-    mpiprocs:   64             # MPI ranks per node (usually == ncpus)
+    select:     8              # number of nodes
+    ncpus:      32             # CPUs per node
+    mpiprocs:   32             # MPI ranks per node (usually == ncpus)
     ompthreads: 1
     walltime:   "48:0:0"
     queue:      "normal"
