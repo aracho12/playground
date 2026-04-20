@@ -1,0 +1,140 @@
+#!/usr/bin/env bash
+#
+# ces2_resubmit.sh — Auto-detect DFT-CES2 QM/MM progress, patch config, and resubmit.
+#
+# Run inside a CES2 calculation directory containing:
+#   - qmmm_dftces2_charging_pts.sh
+#   - submit_ces2.sh
+#   - qm_*/  and  mm_*/  subdirs from previous runs (if any)
+#
+# Behavior:
+#   1. Scan qm_N/pw.out for "JOB DONE"  → last completed QM step
+#   2. Scan mm_N/*.restart               → last completed MM step
+#   3. Patch qmmm_dftces2_charging_pts.sh with the right QMMMINISTEP / initialqm
+#   4. Patch submit_ces2.sh to skip relax stages that already produced dumps
+#   5. qsub submit_ces2.sh (unless --dry-run)
+#
+# Usage:
+#   ces2_resubmit.sh                 # detect, patch, qsub
+#   ces2_resubmit.sh --dry-run       # detect and patch, do not submit
+
+set -euo pipefail
+
+DRYRUN=0
+[[ "${1:-}" == "--dry-run" ]] && DRYRUN=1
+
+QMMM="qmmm_dftces2_charging_pts.sh"
+SUB="submit_ces2.sh"
+
+for f in "$QMMM" "$SUB"; do
+  if [ ! -f "$f" ]; then
+    echo "ERROR: $f not found in $(pwd)" >&2
+    exit 1
+  fi
+done
+
+# ---------- 1. Detect last completed qm_N ----------
+last_qm=-1
+for d in qm_*/; do
+  [ -d "$d" ] || continue
+  n=${d%/}; n=${n#qm_}
+  [[ "$n" =~ ^[0-9]+$ ]] || continue
+  if [ -f "${d}pw.out" ] && grep -q "JOB DONE" "${d}pw.out"; then
+    (( n > last_qm )) && last_qm=$n
+  fi
+done
+
+# ---------- 2. Detect last completed mm_N ----------
+last_mm=-1
+for d in mm_*/; do
+  [ -d "$d" ] || continue
+  n=${d%/}; n=${n#mm_}
+  [[ "$n" =~ ^[0-9]+$ ]] || continue
+  if ls "${d}"*.restart >/dev/null 2>&1; then
+    (( n > last_mm )) && last_mm=$n
+  fi
+done
+
+echo "==[ State detected ]=="
+echo "   last completed qm_N : $last_qm"
+echo "   last completed mm_N : $last_mm"
+
+# ---------- 3. Decide QMMMINISTEP / initialqm ----------
+if (( last_qm == -1 && last_mm == -1 )); then
+  qmmmini=0;  initialqm=0
+  reason="fresh start"
+elif (( last_qm >= 0 && last_mm == last_qm - 1 )); then
+  # qm_N done, mm_N not → resume mm_N (skip re-running qm_N)
+  qmmmini=$last_qm
+  initialqm=1
+  reason="qm_$last_qm done, mm_$last_qm pending"
+elif (( last_qm >= 0 && last_qm == last_mm )); then
+  # Both qm_N and mm_N done → start qm_(N+1)
+  qmmmini=$(( last_qm + 1 ))
+  initialqm=0
+  reason="qm_$last_qm/mm_$last_mm done, start qm_$qmmmini"
+else
+  echo "ERROR: inconsistent state (last_qm=$last_qm, last_mm=$last_mm)." >&2
+  echo "       expected last_mm == last_qm or last_qm - 1." >&2
+  exit 1
+fi
+echo "   → $reason"
+echo "   → QMMMINISTEP=$qmmmini, initialqm=$initialqm"
+
+# Also sanity-check we have the cube inputs needed for qm_(qmmmini) when qmmmini>0.
+# The script at line ~245 copies mm_$((qmmmini-1))/{MOBILE_final,empty,repA}.cube
+if (( qmmmini > 0 )); then
+  prev="mm_$((qmmmini-1))"
+  for c in MOBILE_final.cube empty.cube repA.cube; do
+    if [ ! -f "$prev/$c" ]; then
+      echo "WARNING: $prev/$c missing — qm_$qmmmini will fail to start."
+    fi
+  done
+fi
+
+# ---------- 4. Patch qmmm script ----------
+ts=$(date +%Y%m%d_%H%M%S)
+cp "$QMMM" "${QMMM}.bak.${ts}"
+sed -i.tmp "s|^QMMMINISTEP=.*|QMMMINISTEP=$qmmmini # no of initial QMMM step|" "$QMMM"
+sed -i.tmp "s|^initialqm=.*|initialqm=$initialqm #1, when the initial qm has been done.|" "$QMMM"
+rm -f "${QMMM}.tmp"
+
+# ---------- 5. Patch submit script (skip relax if dumps exist) ----------
+cp "$SUB" "${SUB}.bak.${ts}"
+# Idempotent guards: wrap each `mpirun ... in.relax_X` with `[ -f X.dump ] ||`.
+# If already wrapped (from a prior resubmit) the regex won't match, so no change.
+# Use `#` delimiter so `||` in the pattern is literal (no escaping needed in BRE).
+sed -i.tmp \
+  's#^mpirun -np \$NP \$LMP -in in\.relax_min || true$#[ -f minimized.dump ] || mpirun -np $NP $LMP -in in.relax_min || true#' \
+  "$SUB"
+sed -i.tmp \
+  's#^mpirun -np \$NP \$LMP -in in\.relax_heat || true$#[ -f heated.dump ] || mpirun -np $NP $LMP -in in.relax_heat || true#' \
+  "$SUB"
+sed -i.tmp \
+  's#^mpirun -np \$NP \$LMP -in in\.relax_equil || true$#[ -f equilibrated.dump ] || mpirun -np $NP $LMP -in in.relax_equil || true#' \
+  "$SUB"
+rm -f "${SUB}.tmp"
+
+echo
+echo "==[ Patched ]=="
+echo "   $QMMM (backup: ${QMMM}.bak.${ts})"
+grep -E "^(QMMMINISTEP|QMMMFINSTEP|initialqm|skipequil|firstrun)=" "$QMMM" | sed 's/^/     /'
+echo "   $SUB  (backup: ${SUB}.bak.${ts})"
+grep -nE 'in\.relax_' "$SUB" | sed 's/^/     /'
+
+# ---------- 6. Submit ----------
+if (( DRYRUN == 1 )); then
+  echo
+  echo "Dry run: skipping qsub."
+  exit 0
+fi
+
+if ! command -v qsub >/dev/null 2>&1; then
+  echo
+  echo "WARNING: qsub not found on this machine. Patches applied; submit manually on the HPC."
+  exit 0
+fi
+
+echo
+echo "==[ Submitting ]=="
+qsub "$SUB"
