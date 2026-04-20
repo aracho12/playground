@@ -99,28 +99,39 @@ sed -i.tmp "s|^QMMMINISTEP=.*|QMMMINISTEP=$qmmmini # no of initial QMMM step|" "
 sed -i.tmp "s|^initialqm=.*|initialqm=$initialqm #1, when the initial qm has been done.|" "$QMMM"
 rm -f "${QMMM}.tmp"
 
-# ---------- 5. Patch submit script (skip relax if dumps exist) ----------
-cp "$SUB" "${SUB}.bak.${ts}"
-# Idempotent guards: wrap each `mpirun ... in.relax_X` with `[ -f X.dump ] ||`.
-# If already wrapped (from a prior resubmit) the regex won't match, so no change.
-# Use `#` delimiter so `||` in the pattern is literal (no escaping needed in BRE).
-sed -i.tmp \
-  's#^mpirun -np \$NP \$LMP -in in\.relax_min || true$#[ -f minimized.dump ] || mpirun -np $NP $LMP -in in.relax_min || true#' \
-  "$SUB"
-sed -i.tmp \
-  's#^mpirun -np \$NP \$LMP -in in\.relax_heat || true$#[ -f heated.dump ] || mpirun -np $NP $LMP -in in.relax_heat || true#' \
-  "$SUB"
-sed -i.tmp \
-  's#^mpirun -np \$NP \$LMP -in in\.relax_equil || true$#[ -f equilibrated.dump ] || mpirun -np $NP $LMP -in in.relax_equil || true#' \
-  "$SUB"
-rm -f "${SUB}.tmp"
+# ---------- 5. Patch submit script (skip relax if it contains relax steps) ----------
+# Only patch when the submit file actually has raw `mpirun ... in.relax_*` lines.
+# Some workflows already strip them, in which case there is nothing to do.
+if grep -q '^mpirun -np \$NP \$LMP -in in\.relax_' "$SUB"; then
+  cp "$SUB" "${SUB}.bak.${ts}"
+  # Idempotent guards: wrap each `mpirun ... in.relax_X` with `[ -f X.dump ] ||`.
+  # If already wrapped (from a prior resubmit) the regex won't match, so no change.
+  # Use `#` delimiter so `||` in the pattern is literal (no escaping needed in BRE).
+  sed -i.tmp \
+    's#^mpirun -np \$NP \$LMP -in in\.relax_min || true$#[ -f minimized.dump ] || mpirun -np $NP $LMP -in in.relax_min || true#' \
+    "$SUB"
+  sed -i.tmp \
+    's#^mpirun -np \$NP \$LMP -in in\.relax_heat || true$#[ -f heated.dump ] || mpirun -np $NP $LMP -in in.relax_heat || true#' \
+    "$SUB"
+  sed -i.tmp \
+    's#^mpirun -np \$NP \$LMP -in in\.relax_equil || true$#[ -f equilibrated.dump ] || mpirun -np $NP $LMP -in in.relax_equil || true#' \
+    "$SUB"
+  rm -f "${SUB}.tmp"
+  sub_patched=1
+else
+  sub_patched=0
+fi
 
 echo
 echo "==[ Patched ]=="
 echo "   $QMMM (backup: ${QMMM}.bak.${ts})"
-grep -E "^(QMMMINISTEP|QMMMFINSTEP|initialqm|skipequil|firstrun)=" "$QMMM" | sed 's/^/     /'
-echo "   $SUB  (backup: ${SUB}.bak.${ts})"
-grep -nE 'in\.relax_' "$SUB" | sed 's/^/     /'
+grep -E "^(QMMMINISTEP|QMMMFINSTEP|initialqm|skipequil|firstrun)=" "$QMMM" | sed 's/^/     /' || true
+if (( sub_patched == 1 )); then
+  echo "   $SUB  (backup: ${SUB}.bak.${ts})"
+  grep -n 'in\.relax_' "$SUB" | sed 's/^/     /' || true
+else
+  echo "   $SUB  (no relax lines found — left as-is)"
+fi
 
 # ---------- 6. Submit ----------
 if (( DRYRUN == 1 )); then
