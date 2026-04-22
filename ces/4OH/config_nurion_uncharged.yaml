@@ -62,7 +62,7 @@ electrolyte_recipe:
 
   # Counterion pool for enforcing total charge neutrality (used to fix electrode charge)
   # Put at least one 1-valent cation and one 1-valent anion here.
-  #counterion_pool: ["Li_plus", "OH_minus"]
+  counterion_pool: ["Li_plus", "OH_minus"]
 
           # counterion_pair_search: 2000
 
