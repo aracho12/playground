@@ -91,11 +91,7 @@ output:
 #
 # Example for IrO2 + adsorbed OH (atoms 99-102 in POSCAR, DFTD3 CN~1.0):
 slab:
-  type_label_overrides:
-    99:  "O_ads"
-    100: "O_ads"
-    101: "H_ads"
-    102: "H_ads"
+  bjparams_layer_file: bjparams_layer_avg.dat
 
 # ---- CES2 QM/MM LAMMPS input generation ----
 ces2:
@@ -196,7 +192,7 @@ ces2_script:
   chgplate_binary: "/home/mino/03.scripts/make_rho_mino"
   np:            24             # MPI tasks (= select × mpiprocs)
   n_qmmm_steps:  6              # total QM/MM outer-loop steps
-  adsorbate:   "4"              # last 4 atoms in POSCAR are adsorbate (2 O_ads + 2 H_ads)
+  adsorbate:   "0"              # last 4 atoms in POSCAR are adsorbate (2 O_ads + 2 H_ads)
                                 # MDIPC excludes these from point charge correction
 
   # ---- QE parallelization flags (pw.x command-line options) ----

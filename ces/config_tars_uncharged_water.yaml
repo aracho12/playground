@@ -91,11 +91,7 @@ output:
 #
 # Example for IrO2 + adsorbed OH (atoms 99-102 in POSCAR, DFTD3 CN~1.0):
 slab:
-  type_label_overrides:
-    99:  "O_ads"
-    100: "O_ads"
-    101: "H_ads"
-    102: "H_ads"
+  bjparams_layer_file: bjparams_layer_avg.dat
 
 # ---- CES2 QM/MM LAMMPS input generation ----
 ces2:
