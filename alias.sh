@@ -316,6 +316,10 @@ alias lmp2traj="python $bin/CES2-automation/tools/lammpstrj_to_traj.py"
 alias bjparams='python ~/bin/CES2-automation/tools/extract_bjparams.py'
 alias dftd3="/home/jthlol/program/dftd3_program/origin/test/a.out POSCAR -func hf -bj -pbc > d3.out"
 alias wf='python ~/bin/CES2-automation/tools/workfunction.py'
+<<<<<<< Updated upstream
 alias resub='$play/ces2_resubmit.sh'
 alias conf='$bin/CES2-automation/tools/configure.sh'
+=======
+alias resub='$bin/CES2-automation/ces2_resubmit.sh'
+>>>>>>> Stashed changes
 # remove files which have been more than certain days in (home)/_TRASH
