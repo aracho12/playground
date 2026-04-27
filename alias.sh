@@ -318,6 +318,6 @@ alias dftd3="/home/jthlol/program/dftd3_program/origin/test/a.out POSCAR -func h
 alias wf='python ~/bin/CES2-automation/tools/workfunction.py'
 alias conf='$bin/CES2-automation/tools/configure.sh'
 alias resub='$bin/CES2-automation/tools/ces2_resubmit.sh'
-alias zdst='python $bin/CES2-automation/tools/z_density.py'
+alias zdist='python $bin/CES2-automation/tools/z_density.py'
 
 # remove files which have been more than certain days in (home)/_TRASH
