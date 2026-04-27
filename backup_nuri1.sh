@@ -28,7 +28,7 @@ EXCLUDE_PATTERNS=(
     "*.cube"
     "solute"
     "solute.temp"
-    #"ces2.emd.lammpstrj"
+    "ces2.emd.lammpstrj"
 )
 
 # Create local backup directories if they don't exist
