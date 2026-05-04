@@ -161,6 +161,7 @@ export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
 export PATH=$sunshine:$PATH
 export PATH=~/bin/packmol:$PATH
+export PATH=$bin/CES2-automation/tools:$PATH
 export ASE_VASP_VDW=~/bin
 
 # --- ASE --- #
