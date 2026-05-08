@@ -9,3 +9,4 @@ cd $dir_now'
 qstart() {
   qstat -f "$1" | grep 'estimated.start_time'
 }
+alias vinurion='vi $play/alias-nurion.sh'
