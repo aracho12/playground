@@ -320,5 +320,5 @@ alias wf='python ~/bin/CES2-automation/tools/workfunction.py'
 alias conf='$bin/CES2-automation/tools/configure.sh'
 alias resub='$bin/CES2-automation/tools/ces2_resubmit.sh'
 alias zdist='python $bin/CES2-automation/tools/z_density.py'
-alias cleanexport='$play/cleanup_export.sh'
+alias cle='$play/cleanup_export.sh'
 # remove files which have been more than certain days in (home)/_TRASH
