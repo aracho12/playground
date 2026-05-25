@@ -157,6 +157,7 @@ export PYTHONPATH=$eevee:$PYTHONPATH
 export PYTHONPATH=~/bin/cathub-plotter:$PYTHONPATH
 export PATH=$aloha:$PATH
 export PATH=~/bin:$PATH
+export PATH=~/bin/playground:$PATH
 export PATH=$happy:$PATH
 export PATH=~/bin/vaspkit.1.2.5/bin:$PATH
 export PATH=$sunshine:$PATH
