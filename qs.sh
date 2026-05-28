@@ -60,3 +60,16 @@ while IFS= read -r line; do
 done < <(qstat -f "$@")
 
 print_job
+
+printf '%0.s─' {1..75}; echo
+total=0; r_count=0; q_count=0
+while IFS= read -r line; do
+    line="${line#"${line%%[![:space:]]*}"}"
+    case "$line" in
+        job_state\ =\ R) (( r_count++ )); (( total++ )) ;;
+        job_state\ =\ Q) (( q_count++ )); (( total++ )) ;;
+        job_state\ =\ *) (( total++ )) ;;
+    esac
+done < <(qstat -f "$@")
+printf "${BOLD}Total: %d  |  ${GREEN}R: %d${RESET}${BOLD}  |  ${YELLOW}Q: %d${RESET}${BOLD}  |  %s${RESET}\n" \
+    "$total" "$r_count" "$q_count" "$(date '+%Y-%m-%d %H:%M:%S')"
