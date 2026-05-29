@@ -39,15 +39,15 @@ epoch_to_date() {
 
 print_header() {
     if (( show_path && show_time )); then
-        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-14s  %-14s  %s${RESET}\n" \
+        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-8s  %-14s  %s${RESET}\n" \
             "Job ID" "Name" "S" "Used" "%" "Queue" "Ends" "Path"
         printf '%0.s─' {1..100}; echo
     elif (( show_path )); then
-        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-14s  %s${RESET}\n" \
+        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-8s  %s${RESET}\n" \
             "Job ID" "Name" "S" "Used" "%" "Queue" "Path"
         printf '%0.s─' {1..90}; echo
     elif (( show_time )); then
-        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-14s  %s${RESET}\n" \
+        printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-8s  %s${RESET}\n" \
             "Job ID" "Name" "S" "Used" "%" "Queue" "Ends"
         printf '%0.s─' {1..75}; echo
     else
@@ -78,15 +78,15 @@ print_job() {
     fi
 
     if (( show_path && show_time )); then
-        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-14s  ${CYAN}%-14s${RESET}  %s\n" \
+        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-8s  ${CYAN}%-14s${RESET}  %s\n" \
             "${job_id%%.*}" "${name:0:20}" "$state" \
             "$used_fmt" "$pct" "$queue" "$end_str" "$workdir"
     elif (( show_path )); then
-        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-14s  %s\n" \
+        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-8s  %s\n" \
             "${job_id%%.*}" "${name:0:20}" "$state" \
             "$used_fmt" "$pct" "$queue" "$workdir"
     elif (( show_time )); then
-        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-14s  ${CYAN}%s${RESET}\n" \
+        printf "%-12s %-20s ${color}%-3s${RESET} %11s %5s  %-8s  ${CYAN}%s${RESET}\n" \
             "${job_id%%.*}" "${name:0:20}" "$state" \
             "$used_fmt" "$pct" "$queue" "$end_str"
     else
