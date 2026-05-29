@@ -37,7 +37,6 @@ epoch_to_date() {
     date -d "@$ep" '+%m/%d %H:%M' 2>/dev/null || date -r "$ep" '+%m/%d %H:%M'
 }
 
-# Print header based on mode
 print_header() {
     if (( show_path && show_time )); then
         printf "${BOLD}%-12s %-20s %-3s %11s %5s  %-14s  %-14s  %s${RESET}\n" \
@@ -70,7 +69,6 @@ print_job() {
     [[ "$state" == "R" ]] && color=$GREEN
     [[ "$state" == "Q" ]] && color=$YELLOW
 
-    # End time for R jobs
     local end_str="-"
     if [[ "$state" == "R" && $lim_sec -gt 0 ]]; then
         local now_sec; now_sec=$(date +%s)
@@ -99,18 +97,40 @@ print_job() {
     fi
 }
 
+# Extract PBS_O_WORKDIR robustly from a comma-separated Variable_List string
+extract_workdir() {
+    # Remove everything up to PBS_O_WORKDIR=, then cut at next comma
+    echo "$1" | sed 's/.*PBS_O_WORKDIR=//;s/,.*//'
+}
+
 print_header
 
 job_id="" name="" state="" queue="" used="" limit="" workdir=""
 total=0; r_count=0; q_count=0
+in_varlist=0; varlist_buf=""
 
-while IFS= read -r line; do
-    line="${line#"${line%%[![:space:]]*}"}"   # ltrim
+while IFS= read -r raw; do
+    line="${raw#"${raw%%[![:space:]]*}"}"   # ltrim
+
+    # Accumulate Variable_List continuation lines
+    if (( in_varlist )); then
+        # Continuation lines have deeper indentation and no ' = ' pattern
+        if [[ "$raw" =~ ^[[:space:]] && ! "$line" =~ ^[A-Za-z_][A-Za-z_0-9.]*\ =\  ]]; then
+            varlist_buf+="$line"
+            continue
+        else
+            # End of Variable_List — extract workdir now
+            workdir=$(extract_workdir "$varlist_buf")
+            in_varlist=0
+        fi
+    fi
+
     case "$line" in
         Job\ Id:*)
             print_job
             job_id="${line#Job Id: }"
-            name="" state="" queue="" used="" limit="" workdir="" ;;
+            name="" state="" queue="" used="" limit="" workdir=""
+            in_varlist=0; varlist_buf="" ;;
         Job_Name\ =\ *)    name="${line#Job_Name = }" ;;
         job_state\ =\ *)
             state="${line#job_state = }"
@@ -123,19 +143,18 @@ while IFS= read -r line; do
         resources_used.walltime\ =\ *) used="${line#resources_used.walltime = }" ;;
         Resource_List.walltime\ =\ *)  limit="${line#Resource_List.walltime = }" ;;
         Variable_List\ =\ *)
-            varlist="${line#Variable_List = }"
-            # PBS_O_WORKDIR may be split across continuation lines; grab what's here
-            workdir=$(echo "$varlist" | tr ',' '\n' | grep '^PBS_O_WORKDIR=' | cut -d= -f2-)
-            ;;
-        # continuation: Variable_List can wrap; detect PBS_O_WORKDIR on wrapped lines
-        PBS_O_WORKDIR=*)
-            [[ -z "$workdir" ]] && workdir="${line#PBS_O_WORKDIR=}" ;;
+            varlist_buf="${line#Variable_List = }"
+            in_varlist=1 ;;
     esac
 done < <(qstat -f "${qstat_args[@]}")
 
+# Flush last job's varlist if still pending
+if (( in_varlist && ${#varlist_buf} > 0 )); then
+    workdir=$(extract_workdir "$varlist_buf")
+fi
+
 print_job
 
-# Footer
 if (( show_path && show_time )); then
     printf '%0.s─' {1..100}; echo
 elif (( show_path || show_time )); then
