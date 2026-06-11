@@ -66,6 +66,7 @@ alias sh='/bin/bash'
 alias py='python'
 #source ~/bin/open_finder_tab.sh
 alias oft='oft .'
+alias ltr='ls -ltr'
 
 # --- Git --- #
 gitupdate(){
