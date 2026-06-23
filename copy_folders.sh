@@ -40,8 +40,9 @@ echo "----------------------------------------"
 shopt -s nullglob   # 매칭되는 폴더가 없으면 패턴을 빈 값으로 처리
 
 # --- 복사 대상 목록 구성: qm_*, mm_* + 추가 폴더 ---
+# (${EXTRA[@]+...} 형태는 빈 배열에서도 set -u 에러가 나지 않음)
 targets=("$SRC"/qm_* "$SRC"/mm_*)
-for name in "${EXTRA[@]}"; do
+for name in ${EXTRA[@]+"${EXTRA[@]}"}; do
     targets+=("$SRC/$name")
 done
 
@@ -64,6 +65,6 @@ if [ "$count" -eq 0 ]; then
     echo "복사할 폴더를 찾지 못했습니다."
 else
     echo "완료: $count 개 폴더 복사."
-    { du -ch "$DEST"/qm_* "$DEST"/mm_* "${EXTRA[@]/#/$DEST/}" 2>/dev/null || true; } \
+    { du -ch "$DEST"/qm_* "$DEST"/mm_* ${EXTRA[@]+"${EXTRA[@]/#/$DEST/}"} 2>/dev/null || true; } \
         | tail -1 | awk '{print "총 용량: "$1}'
 fi
