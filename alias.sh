@@ -264,6 +264,7 @@ alias cprdf='cp $happy/rdf.py .'
 alias pov='python $happy/povshot.py -i'
 alias cppov='cp $happy/povshot.py .'
 alias cprun='cp ~/run_slurm.sh .'
+alias cpfol='$play/copy_folders.sh'
 
 # --- QE --- #
 alias conf='bash $happy/conf.sh'
