@@ -50,3 +50,5 @@ alias nuri3='ssh -X -Y x3379a03@nurion.ksc.re.kr'
 
 alias convnuri3="$play/backup_nuri3_conversations.sh"
 alias convtars="$play/backup_tars_conversations.sh"
+
+hash -d cation=/Users/aracho/Dropbox/0-Research/0-My-Publications/27_Cataion_Effects_CES2
