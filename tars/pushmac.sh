@@ -23,7 +23,7 @@
 MAC_PORT="${MAC_PORT:-2222}"
 MAC_USER="${MAC_USER:-aracho}"
 MAC_HOST="${MAC_HOST:-localhost}"
-MAC_DEST="${MAC_DEST:-/Users/aracho/bin/tars_transfer/}"
+MAC_DEST="${MAC_DEST:-/Users/aracho/Dropbox/0-Research/0-My-Publications/27_Cataion_Effects_CES2/Slides/GM2/images/}"
 
 # No-argument default: sync the conversations folder to the Mac.
 CONV_SRC="${CONV_SRC:-$HOME/conversations/}"
