@@ -27,7 +27,7 @@ MAC_DEST="${MAC_DEST:-/Users/aracho/bin/tars_transfer/}"
 
 # No-argument default: sync the conversations folder to the Mac.
 CONV_SRC="${CONV_SRC:-$HOME/conversations/}"
-CONV_DEST="${CONV_DEST:-/Users/aracho/conversations/}"
+CONV_DEST="${CONV_DEST:-/Users/aracho/Dropbox/BACKUP/claude_conversations/tars_aracho/}"
 
 usage() {
     cat <<EOF
